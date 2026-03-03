@@ -1,0 +1,395 @@
+---
+title: 'Workflows'
+description: 'Step-by-step playbooks for orchestrating multiple skills to achieve common goals'
+---
+
+<Note>
+Workflows are guided, step-by-step execution paths that combine multiple skills for one concrete outcome. While bundles tell you which skills are relevant, workflows tell you how to use them in sequence.
+</Note>
+
+## What Is a Workflow?
+
+A workflow orchestrates multiple skills to complete a real objective:
+
+- **Bundles** = Your toolbox (skills organized by role)
+- **Workflows** = Your execution playbook (skills in sequence for a goal)
+
+<Tip>
+Workflows help you execute skills in the right order for complex tasks like shipping a SaaS MVP, running a security audit, or building an AI agent.
+</Tip>
+
+---
+
+## How to Use Workflows
+
+<Steps>
+  <Step title="Install the repository">
+    ```bash
+    npx antigravity-awesome-skills
+    ```
+  </Step>
+  
+  <Step title="Pick a workflow">
+    Choose one matching your immediate goal from the list below.
+  </Step>
+  
+  <Step title="Execute steps in order">
+    Follow each step and invoke the listed skills.
+  </Step>
+  
+  <Step title="Keep output artifacts">
+    Save plans, decisions, tests, and validation evidence at each step.
+  </Step>
+</Steps>
+
+---
+
+## Workflow: Ship a SaaS MVP
+
+Build and ship a minimal but production-minded SaaS product.
+
+**Related bundles:** `Essentials`, `Full-Stack Developer`, `QA & Testing`, `DevOps & Cloud`
+
+### Prerequisites
+
+- Local repository and runtime configured
+- Clear user problem and MVP scope
+- Basic deployment target selected
+
+### Steps
+
+<Steps>
+  <Step title="Plan the scope">
+    **Goal:** Define MVP boundaries and acceptance criteria.
+    
+    **Skills:** `@brainstorming`, `@concise-planning`, `@writing-plans`
+    
+    **Prompt example:**
+    ```
+    Use @concise-planning to define milestones and acceptance criteria for my SaaS MVP.
+    ```
+  </Step>
+  
+  <Step title="Build backend and API">
+    **Goal:** Implement core entities, APIs, and auth baseline.
+    
+    **Skills:** `@backend-dev-guidelines`, `@api-patterns`, `@database-design`
+    
+    **Prompt example:**
+    ```
+    Use @backend-dev-guidelines to create API and services for the billing domain.
+    ```
+  </Step>
+  
+  <Step title="Build frontend">
+    **Goal:** Ship core user flow with clear UX states.
+    
+    **Skills:** `@frontend-developer`, `@react-patterns`, `@frontend-design`
+    
+    **Prompt example:**
+    ```
+    Use @frontend-developer to implement onboarding, empty state, and initial dashboard.
+    ```
+  </Step>
+  
+  <Step title="Test and validate">
+    **Goal:** Cover critical user journeys before release.
+    
+    **Skills:** `@test-driven-development`, `@browser-automation`, `@go-playwright` (optional, Go stack)
+    
+    **Prompt example:**
+    ```
+    Use @browser-automation to create E2E tests for signup and checkout flows.
+    ```
+    
+    <Note>
+    If your QA tooling is in Go, use `@go-playwright` instead.
+    </Note>
+  </Step>
+  
+  <Step title="Ship safely">
+    **Goal:** Release with observability and rollback plan.
+    
+    **Skills:** `@deployment-procedures`, `@observability-engineer`
+    
+    **Prompt example:**
+    ```
+    Use @deployment-procedures for a release checklist with rollback.
+    ```
+  </Step>
+</Steps>
+
+---
+
+## Workflow: Security Audit for a Web App
+
+Run a focused security review from scope definition to remediation validation.
+
+**Related bundles:** `Security Engineer`, `Security Developer`, `Observability & Monitoring`
+
+### Prerequisites
+
+- Explicit authorization for testing
+- In-scope targets documented
+- Logging and environment details available
+
+### Steps
+
+<Steps>
+  <Step title="Define scope and threat model">
+    **Goal:** Identify assets, trust boundaries, and attack paths.
+    
+    **Skills:** `@ethical-hacking-methodology`, `@threat-modeling-expert`, `@attack-tree-construction`
+    
+    **Prompt example:**
+    ```
+    Use @threat-modeling-expert to map critical assets and trust boundaries of my web app.
+    ```
+  </Step>
+  
+  <Step title="Review auth and access control">
+    **Goal:** Detect account takeover and authorization flaws.
+    
+    **Skills:** `@broken-authentication`, `@auth-implementation-patterns`, `@idor-testing`
+    
+    **Prompt example:**
+    ```
+    Use @idor-testing to verify unauthorized access on multitenant endpoints.
+    ```
+  </Step>
+  
+  <Step title="Assess API and input security">
+    **Goal:** Uncover high-impact API and injection vulnerabilities.
+    
+    **Skills:** `@api-security-best-practices`, `@api-fuzzing-bug-bounty`, `@top-web-vulnerabilities`
+    
+    **Prompt example:**
+    ```
+    Use @api-security-best-practices to audit auth, billing, and admin endpoints.
+    ```
+  </Step>
+  
+  <Step title="Harden and verify">
+    **Goal:** Convert findings into fixes and verify evidence of mitigation.
+    
+    **Skills:** `@security-auditor`, `@sast-configuration`, `@verification-before-completion`
+    
+    **Prompt example:**
+    ```
+    Use @verification-before-completion to prove mitigations are effective.
+    ```
+  </Step>
+</Steps>
+
+---
+
+## Workflow: Build an AI Agent System
+
+Design and deliver a production-grade agent with measurable reliability.
+
+**Related bundles:** `Agent Architect`, `LLM Application Developer`, `Data Engineering`
+
+### Prerequisites
+
+- Narrow use case with measurable outcomes
+- Access to model provider(s) and observability tooling
+- Initial dataset or knowledge corpus
+
+### Steps
+
+<Steps>
+  <Step title="Define target behavior and KPIs">
+    **Goal:** Set quality, latency, and failure thresholds.
+    
+    **Skills:** `@ai-agents-architect`, `@agent-evaluation`, `@product-manager-toolkit`
+    
+    **Prompt example:**
+    ```
+    Use @agent-evaluation to define benchmark and success criteria for my agent.
+    ```
+  </Step>
+  
+  <Step title="Design retrieval and memory">
+    **Goal:** Build reliable retrieval and context architecture.
+    
+    **Skills:** `@llm-app-patterns`, `@rag-implementation`, `@vector-database-engineer`
+    
+    **Prompt example:**
+    ```
+    Use @rag-implementation to design chunking, embedding, and retrieval pipeline.
+    ```
+  </Step>
+  
+  <Step title="Implement orchestration">
+    **Goal:** Implement deterministic orchestration and tool boundaries.
+    
+    **Skills:** `@langgraph`, `@mcp-builder`, `@workflow-automation`
+    
+    **Prompt example:**
+    ```
+    Use @langgraph to implement agent graph with fallback and human-in-the-loop.
+    ```
+  </Step>
+  
+  <Step title="Evaluate and iterate">
+    **Goal:** Improve weak points with a structured loop.
+    
+    **Skills:** `@agent-evaluation`, `@langfuse`, `@kaizen`
+    
+    **Prompt example:**
+    ```
+    Use @kaizen to prioritize fixes for failure modes detected by tests.
+    ```
+  </Step>
+</Steps>
+
+---
+
+## Workflow: QA and Browser Automation
+
+Create resilient browser automation with deterministic execution in CI.
+
+**Related bundles:** `QA & Testing`, `Full-Stack Developer`
+
+### Prerequisites
+
+- Test environments and stable credentials
+- Critical user journeys identified
+- CI pipeline available
+
+### Steps
+
+<Steps>
+  <Step title="Prepare test strategy">
+    **Goal:** Scope journeys, fixtures, and execution environments.
+    
+    **Skills:** `@e2e-testing-patterns`, `@test-driven-development`
+    
+    **Prompt example:**
+    ```
+    Use @e2e-testing-patterns to define minimal but high-impact E2E suite.
+    ```
+  </Step>
+  
+  <Step title="Implement browser tests">
+    **Goal:** Build robust test coverage with stable selectors.
+    
+    **Skills:** `@browser-automation`, `@go-playwright` (optional, Go stack)
+    
+    **Prompt example:**
+    ```
+    Use @go-playwright to implement browser automation in a Go project.
+    ```
+  </Step>
+  
+  <Step title="Triage and harden">
+    **Goal:** Remove flaky behavior and enforce repeatability.
+    
+    **Skills:** `@systematic-debugging`, `@test-fixing`, `@verification-before-completion`
+    
+    **Prompt example:**
+    ```
+    Use @systematic-debugging to classify and resolve flakiness in CI.
+    ```
+  </Step>
+</Steps>
+
+---
+
+## Workflow: Design a DDD Core Domain
+
+Model a complex domain coherently, then implement tactical and evented patterns only where justified.
+
+**Related bundles:** `Architecture & Design`, `DDD & Evented Architecture`
+
+### Prerequisites
+
+- Access to at least one domain expert or product owner proxy
+- Current system context and integration landscape available
+- Agreement on business goals and key domain outcomes
+
+### Steps
+
+<Steps>
+  <Step title="Assess DDD fit and scope">
+    **Goal:** Decide whether full DDD, partial DDD, or simple modular architecture is appropriate.
+    
+    **Skills:** `@domain-driven-design`, `@architecture-decision-records`
+    
+    **Prompt example:**
+    ```
+    Use @domain-driven-design to evaluate if full DDD is justified for our billing platform.
+    ```
+  </Step>
+  
+  <Step title="Create strategic model">
+    **Goal:** Define subdomains, bounded contexts, and ubiquitous language.
+    
+    **Skills:** `@ddd-strategic-design`
+    
+    **Prompt example:**
+    ```
+    Use @ddd-strategic-design to classify subdomains and propose bounded contexts.
+    ```
+  </Step>
+  
+  <Step title="Map context relationships">
+    **Goal:** Define upstream/downstream contracts and anti-corruption boundaries.
+    
+    **Skills:** `@ddd-context-mapping`
+    
+    **Prompt example:**
+    ```
+    Use @ddd-context-mapping to model Checkout, Billing, and Inventory interactions.
+    ```
+  </Step>
+  
+  <Step title="Implement tactical model">
+    **Goal:** Encode invariants with aggregates, value objects, and domain events.
+    
+    **Skills:** `@ddd-tactical-patterns`, `@test-driven-development`
+    
+    **Prompt example:**
+    ```
+    Use @ddd-tactical-patterns to design aggregates for order lifecycle transitions.
+    ```
+  </Step>
+  
+  <Step title="Adopt evented patterns selectively">
+    **Goal:** Apply CQRS, event store, projections, and sagas only where complexity and scale require them.
+    
+    **Skills:** `@cqrs-implementation`, `@event-store-design`, `@projection-patterns`, `@saga-orchestration`
+    
+    **Prompt example:**
+    ```
+    Use @cqrs-implementation and @projection-patterns to scale read-side reporting.
+    ```
+  </Step>
+</Steps>
+
+---
+
+## Machine-Readable Workflows
+
+<Note>
+For tooling and automation, workflow metadata is available in JSON format in the repository at `data/workflows.json`.
+</Note>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Explore Bundles" icon="boxes" href="/guides/bundles">
+    Find curated skill collections by role
+  </Card>
+  <Card title="Browse Skills" icon="magnifying-glass" href="/guides/web-app">
+    Use the interactive web app to explore 968+ skills
+  </Card>
+  <Card title="Create Custom Skills" icon="hammer" href="/guides/creating-skills">
+    Learn how to create your own skills
+  </Card>
+  <Card title="Getting Started" icon="rocket" href="/introduction/quickstart">
+    New to Antigravity? Start here
+  </Card>
+</CardGroup>

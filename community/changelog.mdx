@@ -1,0 +1,257 @@
+---
+title: Changelog
+description: Version history and recent changes to Antigravity Awesome Skills
+---
+
+All notable changes to the **Antigravity Awesome Skills** collection are documented here.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [6.8.0] - 2026-03-02 - "Productivity Boost & In-App Sync"
+
+<Note>
+Major productivity enhancements to existing skills and new in-app skill synchronization feature.
+</Note>
+
+This release delivers version 2.0.0 upgrades to two critical skills: `vibe-code-auditor` and `tutorial-engineer`, packed with pattern recognition shortcuts, deterministic scoring, and copy-paste templates. Plus, a new "Sync Skills" button in the Web App enables live skill updates from GitHub without leaving the browser.
+
+### New Features
+
+<Accordion title="In-App Sync Skills Button">
+  **One-click skill synchronization from the Web App UI.**
+  
+  Replaces the unreliable START_APP.bat auto-updater. Users can now click "Sync Skills" in the web app to download the latest skills from GitHub instantly.
+  
+  - Vite dev server plugin exposing `/api/refresh-skills` endpoint
+  - Downloads and extracts only the `/skills/` folder and `skills_index.json`
+  - Live UI updates without page refresh
+</Accordion>
+
+### Improvements
+
+<Accordion title="vibe-code-auditor v2.0.0">
+  **Productivity-focused overhaul with 10x faster audits.**
+  
+  - **Pattern Recognition Shortcuts**: 10 heuristics for rapid issue detection
+  - **Quick Checks**: 3-second scans for each of 7 audit dimensions
+  - **Executive Summary**: Critical findings upfront
+  - **Deterministic Scoring**: Replaces subjective ranges with algorithmic scoring
+  - **Code Fix Blocks**: Before/after examples for copy-paste remediation
+  - **Quick Wins Section**: Fixes completable in less than 1 hour
+  - **Calibration Rules**: Scoring adjusted by code size (snippet vs multi-file)
+  - **Expanded Security**: SQL injection, path traversal, insecure deserialization detection
+</Accordion>
+
+<Accordion title="tutorial-engineer v2.0.0">
+  **Evidence-based learning with 75% better retention.**
+  
+  - **4-MAT Model**: Why/What/How/What If framework for explanations
+  - **Learning Retention Shortcuts**: Evidence-based patterns (+75% retention)
+  - **Cognitive Load Management**: 7±2 rule, One Screen, No Forward References
+  - **Exercise Calibration**: Difficulty table with time estimates
+  - **Format Selection Guide**: Quick Start vs Deep Dive vs Workshop
+  - **Pre-Publish Audit Checklist**: Comprehension, progression, technical validation
+  - **Speed Scoring Rubric**: 1-5 rating on 5 dimensions
+  - **Copy-Paste Template**: Ready-to-use Markdown structure
+  - **Accessibility Checklist**: WCAG compliance for tutorials
+</Accordion>
+
+### Credits
+
+- **@munir-abbasi** for the v2.0.0 productivity enhancements (PR #172)
+- **@zinzied** for the In-App Sync Skills Button (PR #178)
+
+---
+
+## [6.7.0] - 2026-03-01 - "Intelligence Extraction & Automation"
+
+<Note>
+New skills for Web Scraping (Apify), X/Twitter extraction, Genomic analysis, and hardened registry infrastructure.
+</Note>
+
+### New Skills
+
+<Accordion title="apify-agent-skills">
+  **12 Official Apify skills for web scraping and automation.**
+  
+  Scale data extraction using Apify Actors. Includes specialized skills for e-commerce, lead generation, social media analysis, and market research.
+</Accordion>
+
+<Accordion title="x-twitter-scraper">
+  **High-performance X (Twitter) data extraction.**
+  
+  Search tweets, fetch profiles, and extract media/engagement metrics without complex API setups.
+</Accordion>
+
+<Accordion title="dna-claude-analysis">
+  **Personal genome analysis toolkit.**
+  
+  Analyze raw DNA data across 17 categories (health, ancestry, pharmacogenomics) with interactive HTML visualization.
+</Accordion>
+
+### Improvements
+
+- **Registry Hardening**: Migrated all registry maintenance scripts to `PyYAML` for safe, lossless metadata handling. (PR #168)
+- **Hermetic Testing**: Implemented environment-agnostic registry tests to prevent CI drift.
+- **Contributor Sync**: Fully synchronized the Repo Contributors list in README.md from git history (69 total contributors).
+- **Documentation**: Standardized H2 headers in README.md (no emojis) for clean Table of Contents anchors, following Maintenance V5 rules.
+- **Skill Metadata**: Enhanced description validation and category consistency across 968 skills.
+
+### Credits
+
+- **@ar27111994** for the 12 Apify skills and registry hardening (PR #165, #168)
+- **@kriptoburak** for `x-twitter-scraper` (PR #164)
+- **@shmlkv** for `dna-claude-analysis` (PR #167)
+
+---
+
+## [6.6.0] - 2026-02-28 - "Community Skills & Quality"
+
+<Note>
+New skills for Android UI verification, memory handling, video manipulation, vibe-code auditing, and essential fixes.
+</Note>
+
+### New Skills
+
+<Steps>
+  <Step title="android_ui_verification">
+    **Automated end-to-end UI testing on Android Emulators.**
+    Test layout issues, check state verification, and capture screenshots right from ADB.
+  </Step>
+  
+  <Step title="hierarchical-agent-memory">
+    **Scoped CLAUDE.md memory system.**
+    Directory-level context files with a dashboard, significantly reducing token spend on repetitive queries.
+  </Step>
+  
+  <Step title="videodb-skills">
+    **The ultimate Video processing toolkit.**
+    Upload, stream, search, edit, transcribe, and generate AI video/audio using the VideoDB SDK.
+  </Step>
+  
+  <Step title="vibe-code-auditor">
+    **AI-code specific quality assessments.**
+    Check prototypes and generated code for structural flaws, hidden technical debt, and production risks.
+  </Step>
+</Steps>
+
+### Improvements
+
+- **Skill Description Restoration**: Recovered 223+ truncated descriptions from git history that were corrupted in release 6.5.0.
+- **Robust YAML Tooling**: Replaced fragile regex parsing with `PyYAML` across all maintenance scripts.
+- **Refined Descriptions**: Standardized all skill descriptions to be under 200 characters while maintaining grammatical correctness.
+- **Cross-Platform Index**: Normalized `skills_index.json` to use forward slashes for universal path compatibility.
+- **Skill Validation Fixes**: Corrected invalid description lengths and `risk` fields. (Fixes #157, #158)
+- **Documentation**: New dedicated `docs/SEC_SKILLS.md` indexing all 128 security skills.
+- **README Quality**: Cleaned up inconsistencies, deduplicated lists, updated stats (954+ total skills).
+
+### Credits
+
+- **@alexmvie** for `android_ui_verification`
+- **@talesperito** for `vibe-code-auditor`
+- **@djmahe4** for `docs/SEC_SKILLS.md`
+- **@kromahlusenii-ops** for `hierarchical-agent-memory`
+- **@0xrohitgarg** for `videodb-skills`
+
+---
+
+## [6.5.0] - 2026-02-27 - "Community & Experience"
+
+<Note>
+Major UX upgrade: Stars feature, auto-updates, interactive prompts, and complete date tracking for all 950+ skills.
+</Note>
+
+### New Features
+
+<Accordion title="Stars & Community Upvotes">
+  **Community-driven skill discovery with star/upvote system.**
+  
+  - Upvote skills you find valuable — visible to all users
+  - Star counts persist via Supabase backend
+  - One upvote per browser (localStorage deduplication)
+  - Discover popular skills through community ratings
+</Accordion>
+
+<Accordion title="Auto-Update Mechanism">
+  **Seamless skill updates via START_APP.bat.**
+  
+  - Automatic skill synchronization on app startup
+  - Git-based fast updates when available
+  - PowerShell HTTPS fallback for non-Git environments
+  - Surgical updates — only `/skills/` folder to avoid conflicts
+</Accordion>
+
+<Accordion title="Interactive Prompt Builder">
+  **Build contextual prompts directly in skill detail pages.**
+  
+  - Add custom context to any skill (e.g., "Use React 19 and Tailwind")
+  - Copy formatted prompt with skill invocation + your context
+  - Copy full skill content with context overlay
+  - Streamlined workflow for AI assistant interactions
+</Accordion>
+
+<Accordion title="Date Tracking for All Skills">
+  **Complete `date_added` metadata across the entire registry.**
+  
+  - All 950+ skills now include `date_added` field
+  - Visible badges in skill detail pages
+  - Filter and sort by recency
+  - Better discoverability of new capabilities
+</Accordion>
+
+### Credits
+
+- **@zinzied** for the comprehensive UX enhancement (PR #150)
+
+---
+
+## [5.0.0] - 2026-02-10 - "Antigravity Workflows Foundation"
+
+<Note>
+Workflows are now first-class: users can run guided, multi-skill playbooks instead of manually composing skills one by one.
+</Note>
+
+### Added
+
+- **New orchestration skill**: `antigravity-workflows`
+  - `skills/antigravity-workflows/SKILL.md`
+  - `skills/antigravity-workflows/resources/implementation-playbook.md`
+- **New workflow documentation**: `docs/WORKFLOWS.md`
+  - Introduces the Workflows model and differentiates it from Bundles
+  - Provides execution playbooks with prerequisites, ordered steps, and prompt examples
+- **New machine-readable workflow registry**: `data/workflows.json`
+  - `ship-saas-mvp`
+  - `security-audit-web-app`
+  - `build-ai-agent-system`
+  - `qa-browser-automation`
+
+### Changed
+
+- **README / Onboarding docs** updated to include Workflows discovery and usage
+- **Go browser automation alignment**: Workflow playbooks now include optional `@go-playwright` hooks
+- **Registry sync** after workflow skill addition
+
+### Contributors
+
+- **@sickn33** - Workflows architecture, docs, and release integration
+
+---
+
+## Earlier Versions
+
+For the complete changelog including versions 4.x and earlier, see the full [CHANGELOG.md](https://github.com/sickn33/antigravity-awesome-skills/blob/main/CHANGELOG.md) in the repository.
+
+### Notable Milestones
+
+- **[6.4.0]** - SEO Incident Response & Legal Local Audit
+- **[6.3.0]** - Agent Discovery & Operational Excellence
+- **[6.2.0]** - Interactive Web App & AWS IaC
+- **[6.0.0]** - Codex YAML Fix & Community PRs
+- **[5.9.0]** - Apple HIG & Quality Bar
+- **[5.1.0]** - Official Microsoft & Gemini Skills (845+ skills)
+- **[4.10.0]** - Composio Automation + .NET Backend (713 skills)
+- **[4.0.0]** - "The Enterprise Era"
+
+<Note>
+Upgrade now: `git pull origin main` to fetch the latest skills.
+</Note>

@@ -1,0 +1,557 @@
+---
+title: 'Troubleshooting'
+description: 'Common issues and solutions when using Antigravity Awesome Skills'
+icon: 'wrench'
+---
+
+## Common Installation Issues
+
+### `npx antigravity-awesome-skills` returns 404
+
+If the npm package lookup fails, use the GitHub package fallback:
+
+```bash
+npx github:sickn33/antigravity-awesome-skills
+```
+
+This directly references the GitHub repository and bypasses npm registry issues.
+
+<Note>
+This is the recommended fallback if you encounter any npm-related errors.
+</Note>
+
+### Windows Clone Issues (Symlinks)
+
+<Warning>
+**Windows Users**: This repository uses **symlinks** for official skills. Windows requires special configuration to handle symlinks properly.
+</Warning>
+
+#### Why This Happens
+
+The repository includes symlinked files in the `skills/official/` directory. Windows treats symlinks differently than Unix-based systems and may fail to create them without proper permissions.
+
+#### Solution 1: Enable Developer Mode (Recommended)
+
+<Steps>
+
+<Step title="Open Windows Settings">
+Press `Win + I` to open Settings
+</Step>
+
+<Step title="Navigate to Developer Settings">
+Go to **Update & Security** → **For developers**
+</Step>
+
+<Step title="Enable Developer Mode">
+Toggle **Developer Mode** to ON
+</Step>
+
+<Step title="Clone the repository">
+```bash
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .agent/skills
+```
+</Step>
+
+</Steps>
+
+#### Solution 2: Git Clone with Symlinks Flag
+
+If you can't enable Developer Mode, run Git as Administrator and use the symlinks flag:
+
+```bash
+# Run this in an Administrator Command Prompt or PowerShell
+git clone -c core.symlinks=true https://github.com/sickn33/antigravity-awesome-skills.git .agent/skills
+```
+
+<Accordion title="What does -c core.symlinks=true do?">
+This flag tells Git to create actual symlinks on Windows instead of copying the files. Without this flag, Git may:
+- Create text files containing the symlink path instead of actual links
+- Fail to properly link the official skills
+- Cause "file not found" errors when trying to use official skills
+</Accordion>
+
+### Skills Installed But Not Detected
+
+<Warning>
+If your AI assistant doesn't recognize skills after installation, the path is likely incorrect.
+</Warning>
+
+#### Check Your Installation Path
+
+Different tools expect skills in different locations:
+
+```bash
+# Antigravity global (default)
+~/.gemini/antigravity/skills/
+
+# Antigravity workspace
+.agent/skills/
+
+# Claude Code
+.claude/skills/
+
+# Gemini CLI
+.gemini/skills/
+
+# Cursor
+.cursor/skills/
+
+# OpenCode
+.agents/skills/
+```
+
+#### Solution: Reinstall to Correct Path
+
+Use the tool-specific installer flag:
+
+```bash
+# Antigravity (explicit)
+npx antigravity-awesome-skills --antigravity
+
+# Claude Code
+npx antigravity-awesome-skills --claude
+
+# Gemini CLI
+npx antigravity-awesome-skills --gemini
+
+# Cursor
+npx antigravity-awesome-skills --cursor
+
+# Kiro CLI/IDE
+npx antigravity-awesome-skills --kiro
+
+# Custom path
+npx antigravity-awesome-skills --path .agents/skills  # OpenCode
+```
+
+#### Verify Installation
+
+<Tabs>
+
+<Tab title="Antigravity">
+```bash
+# Global installation
+test -d ~/.gemini/antigravity/skills && echo "Skills installed in ~/.gemini/antigravity/skills"
+
+# Workspace installation
+test -d .agent/skills && echo "Skills installed in .agent/skills"
+```
+</Tab>
+
+<Tab title="Claude Code">
+```bash
+test -d .claude/skills && echo "Skills installed in .claude/skills"
+```
+</Tab>
+
+<Tab title="Cursor">
+```bash
+test -d .cursor/skills && echo "Skills installed in .cursor/skills"
+```
+</Tab>
+
+<Tab title="OpenCode">
+```bash
+test -d .agents/skills && echo "Skills installed in .agents/skills"
+```
+</Tab>
+
+</Tabs>
+
+## Update Issues
+
+### Update an Existing Installation
+
+<Accordion title="Manual Update">
+
+If you installed via git clone, navigate to the installation directory and pull:
+
+```bash
+cd ~/.gemini/antigravity/skills  # or your installation path
+git pull origin main
+```
+
+</Accordion>
+
+<Accordion title="NPX Auto-Update">
+
+If you installed via npx, simply run the installer again:
+
+```bash
+npx antigravity-awesome-skills
+```
+
+The installer automatically runs `git pull` if the directory already exists.
+
+</Accordion>
+
+<Accordion title="Web App Auto-Update">
+
+**Good news!** You no longer need to manually run `git pull` or `npx antigravity-awesome-skills` to update your skills.
+
+- **Windows:** Double-click **`START_APP.bat`** (or run it in your terminal)
+- **macOS/Linux:** Run `cd web-app && npm run app:dev` from the repo root
+
+Both methods automatically fetch and merge the latest skills from the original repository every time you open the Web App, ensuring you always have the most up-to-date catalog.
+
+</Accordion>
+
+### Reinstall from Scratch
+
+If you encounter persistent issues, remove the installation and reinstall:
+
+```bash
+# Remove existing installation
+rm -rf ~/.gemini/antigravity/skills  # or your installation path
+
+# Reinstall
+npx antigravity-awesome-skills
+```
+
+<Warning>
+This will delete any custom modifications you've made to skills. Back up your changes first if needed.
+</Warning>
+
+## Usage Issues
+
+### AI Assistant Doesn't Recognize Skills
+
+<AccordionGroup>
+
+<Accordion title="Possible Cause 1: Wrong Installation Path">
+
+Check your tool's documentation for the expected skills path. Use the installer with the correct flag:
+
+```bash
+npx antigravity-awesome-skills --claude   # Claude Code
+npx antigravity-awesome-skills --cursor   # Cursor
+npx antigravity-awesome-skills --gemini   # Gemini CLI
+```
+
+</Accordion>
+
+<Accordion title="Possible Cause 2: Restart Needed">
+
+Some tools require a restart after installing skills:
+
+1. Close your IDE or CLI completely
+2. Reopen it
+3. Try invoking a skill again
+
+</Accordion>
+
+<Accordion title="Possible Cause 3: Typos in Skill Name">
+
+Skill names are case-sensitive and use hyphens:
+
+✅ `@brainstorming`  
+❌ `@brain-storming`  
+❌ `@Brainstorming`
+
+Check the exact skill name in the catalog or by listing the directory:
+
+```bash
+ls ~/.gemini/antigravity/skills/  # or your installation path
+```
+
+</Accordion>
+
+<Accordion title="Possible Cause 4: Tool Doesn't Support Skills">
+
+Verify your tool supports the SKILL.md format. See the [Compatibility](/usage/compatibility) page for supported platforms.
+
+</Accordion>
+
+</AccordionGroup>
+
+### Skill Gives Incorrect or Outdated Advice
+
+<Steps>
+
+<Step title="Verify you're using the latest version">
+```bash
+cd ~/.gemini/antigravity/skills  # or your installation path
+git pull origin main
+```
+</Step>
+
+<Step title="Check the skill's SKILL.md file">
+```bash
+cat ~/.gemini/antigravity/skills/[skill-name]/SKILL.md
+```
+
+Verify the skill description matches your expectations.
+</Step>
+
+<Step title="Open an issue on GitHub">
+If the skill is genuinely outdated or incorrect, please report it:
+
+[Open an issue](https://github.com/sickn33/antigravity-awesome-skills/issues)
+
+Include:
+- Which skill
+- What went wrong
+- What should happen instead
+- Your environment (OS, tool, version)
+</Step>
+
+</Steps>
+
+### Multiple Skills with Similar Names
+
+<Accordion title="How to choose the right skill">
+
+Some skills have similar names but different purposes:
+
+- `@brainstorming` - General feature planning
+- `@systematic-debugging` - Bug fixing methodology
+- `@concise-planning` - Task organization
+
+Check the skill's description:
+
+```bash
+# View skill metadata
+head -20 ~/.gemini/antigravity/skills/[skill-name]/SKILL.md
+```
+
+Or browse the catalog in the Web App or CATALOG.md.
+
+</Accordion>
+
+## Path and Permission Issues
+
+### Permission Denied Errors
+
+<Accordion title="Linux/macOS">
+
+If you get permission errors during installation:
+
+```bash
+# Don't use sudo with npx - install to user directory instead
+npx antigravity-awesome-skills --path ~/.antigravity-skills
+
+# For git clone
+git clone https://github.com/sickn33/antigravity-awesome-skills.git ~/.antigravity-skills
+```
+
+Avoid installing to system directories that require sudo.
+
+</Accordion>
+
+<Accordion title="Windows">
+
+If you get "Access Denied" errors:
+
+1. Run Command Prompt or PowerShell as Administrator
+2. Use the symlinks flag:
+
+```bash
+git clone -c core.symlinks=true https://github.com/sickn33/antigravity-awesome-skills.git .agent/skills
+```
+
+</Accordion>
+
+### Skills Directory Not Found
+
+<Accordion title="Workspace vs Global Installation">
+
+Some tools support both workspace and global installations:
+
+**Workspace (project-specific):**
+```bash
+.agent/skills/       # Antigravity workspace
+.cursor/skills/      # Cursor workspace
+.kiro/skills/        # Kiro workspace
+```
+
+**Global (all projects):**
+```bash
+~/.gemini/antigravity/skills/  # Antigravity global
+~/.kiro/skills/                # Kiro global
+```
+
+Make sure you're installing to the correct scope for your needs.
+
+</Accordion>
+
+## Tool-Specific Issues
+
+### Kiro IDE Import Issues
+
+<Accordion title="Individual skill import not working">
+
+If importing individual skills via the Kiro IDE GUI fails:
+
+1. Verify the URL format:
+   ```
+   https://github.com/sickn33/antigravity-awesome-skills/tree/main/skills/[skill-name]
+   ```
+
+2. Check your internet connection
+
+3. Try bulk installation instead:
+   ```bash
+   npx antigravity-awesome-skills --kiro
+   ```
+
+</Accordion>
+
+### GitHub Copilot Compatibility
+
+<Warning>
+GitHub Copilot has **limited support** for skills. You must manually copy and paste skill content.
+</Warning>
+
+<Accordion title="How to use skills with GitHub Copilot">
+
+<Steps>
+
+<Step title="Clone for reference">
+```bash
+git clone https://github.com/sickn33/antigravity-awesome-skills.git ~/skills-reference
+```
+</Step>
+
+<Step title="Find the skill">
+```bash
+cat ~/skills-reference/skills/[skill-name]/SKILL.md
+```
+</Step>
+
+<Step title="Copy content">
+Copy the entire SKILL.md content
+</Step>
+
+<Step title="Paste in Copilot Chat">
+Paste in GitHub Copilot Chat, followed by your request
+</Step>
+
+</Steps>
+
+</Accordion>
+
+### OpenCode Path Issues
+
+<Accordion title="OpenCode not finding skills">
+
+OpenCode changed its default skills path to `.agents/skills/`:
+
+```bash
+# Install to correct path
+npx antigravity-awesome-skills --path .agents/skills
+
+# Verify
+test -d .agents/skills && echo "Skills installed correctly"
+```
+
+See the [Place Files](https://opencode.ai/docs/skills/#place-files) directive on OpenCode Docs.
+
+</Accordion>
+
+## Quality and Validation Issues
+
+### Skill Fails Quality Checks
+
+<Accordion title="For Contributors">
+
+If you're contributing a skill and it fails CI checks:
+
+1. **Run validation locally:**
+   ```bash
+   npm run validate          # Standard checks
+   npm run validate:strict   # CI-level checks
+   ```
+
+2. **Check for required fields:**
+   - Valid `description` in frontmatter
+   - Usage examples in the skill
+   - Proper SKILL.md format
+
+3. **Validate references (optional):**
+   ```bash
+   python3 scripts/validate_references.py
+   ```
+
+4. See [QUALITY_BAR.md](https://github.com/sickn33/antigravity-awesome-skills/blob/main/docs/QUALITY_BAR.md) for full requirements
+
+</Accordion>
+
+### Official Skills Are Broken Links
+
+<Accordion title="Symlink issues with official skills">
+
+Official skills in `skills/official/` are symlinked from vendor repositories. If they appear as broken:
+
+**On Windows:**
+```bash
+# Clone with symlinks enabled
+git clone -c core.symlinks=true https://github.com/sickn33/antigravity-awesome-skills.git .agent/skills
+```
+
+**On Linux/macOS:**
+Symlinks should work automatically. If not:
+```bash
+# Check if symlinks are preserved
+ls -la ~/.gemini/antigravity/skills/skills/official/
+
+# You should see -> arrows indicating symlinks
+```
+
+If symlinks are still broken, open an issue.
+
+</Accordion>
+
+## Getting Help
+
+<CardGroup cols={2}>
+
+<Card title="Check the FAQ" icon="question" href="https://github.com/sickn33/antigravity-awesome-skills/blob/main/docs/FAQ.md">
+Many common questions are already answered
+</Card>
+
+<Card title="Browse Examples" icon="book" href="https://github.com/sickn33/antigravity-awesome-skills/blob/main/docs/EXAMPLES.md">
+See real-world usage patterns
+</Card>
+
+<Card title="Open a Discussion" icon="comments" href="https://github.com/sickn33/antigravity-awesome-skills/discussions">
+Ask questions to the community
+</Card>
+
+<Card title="File an Issue" icon="bug" href="https://github.com/sickn33/antigravity-awesome-skills/issues">
+Report bugs or request features
+</Card>
+
+</CardGroup>
+
+## Still Having Issues?
+
+If this guide didn't solve your problem:
+
+<Steps>
+
+<Step title="Gather information">
+Collect:
+- Your OS and version
+- Your AI tool and version
+- Installation path you used
+- Exact error message
+- Steps to reproduce
+</Step>
+
+<Step title="Search existing issues">
+Check if someone else had the same problem:
+[Search GitHub Issues](https://github.com/sickn33/antigravity-awesome-skills/issues)
+</Step>
+
+<Step title="Open a new issue">
+If you can't find a solution:
+[Create a new issue](https://github.com/sickn33/antigravity-awesome-skills/issues/new)
+
+Provide all information from Step 1.
+</Step>
+
+</Steps>
+
+<Note>
+Remember: The whole point of this project is to make AI assistants easier to use. If this guide didn't help, let us know so we can improve it! 🙌
+</Note>

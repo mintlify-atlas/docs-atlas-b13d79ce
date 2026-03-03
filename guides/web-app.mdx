@@ -1,0 +1,278 @@
+---
+title: 'Interactive Web App'
+description: 'Browse, search, and copy 968+ skills from your browser'
+---
+
+<Note>
+The Antigravity Skills Web App is a modern interface to explore, search, and use skills directly from your browser. No command-line required.
+</Note>
+
+## Features
+
+<CardGroup cols={2}>
+  <Card title="Full-text search" icon="magnifying-glass">
+    Search skills by name, description, or content
+  </Card>
+  <Card title="Category filters" icon="filter">
+    Filter by Frontend, Backend, Security, DevOps, and more
+  </Card>
+  <Card title="Markdown rendering" icon="file-code">
+    View complete documentation with syntax highlighting
+  </Card>
+  <Card title="Copy buttons" icon="copy">
+    Copy `@skill-name` or full content in 1 click
+  </Card>
+  <Card title="Prompt Builder" icon="wand-magic-sparkles">
+    Add custom context before copying
+  </Card>
+  <Card title="Dark mode" icon="moon">
+    Adaptive light/dark interface
+  </Card>
+  <Card title="Auto-update" icon="arrows-rotate">
+    Automatically syncs with upstream repo
+  </Card>
+  <Card title="968+ skills" icon="star">
+    Browse the complete catalog
+  </Card>
+</CardGroup>
+
+---
+
+## Quick Start
+
+### Windows
+
+Double-click the batch file or run it in your terminal:
+
+```bash
+START_APP.bat
+```
+
+<Tip>
+The batch file automatically handles dependencies and launches the app.
+</Tip>
+
+### macOS / Linux
+
+<Steps>
+  <Step title="Install dependencies (first time only)">
+    ```bash
+    cd web-app && npm install
+    ```
+  </Step>
+  
+  <Step title="Setup assets and launch">
+    ```bash
+    npm run app:dev
+    ```
+  </Step>
+</Steps>
+
+The app automatically opens at `http://localhost:5173` (or an alternative port if 5173 is busy).
+
+---
+
+## Available npm Commands
+
+<CodeGroup>
+```bash Setup
+npm run app:setup
+```
+
+```bash Development
+npm run app:dev
+```
+
+```bash Build
+npm run app:build
+```
+
+```bash Preview
+npm run app:preview
+```
+</CodeGroup>
+
+### Command Reference
+
+| Command | Description |
+|---------|-------------|
+| `app:setup` | Copy skills to `web-app/public/` |
+| `app:dev` | Start development server |
+| `app:build` | Production build |
+| `app:preview` | Preview production build |
+
+---
+
+## Using the Interactive Prompt Builder
+
+On each skill page, you'll find the **Interactive Prompt Builder**. This tool helps you create ready-to-use prompts without manually writing them.
+
+<Steps>
+  <Step title="Navigate to a skill page">
+    Use the search or category filters to find a skill.
+  </Step>
+  
+  <Step title="Add your custom context">
+    Type your project-specific requirements into the text box.
+    
+    **Example:**
+    ```
+    Use React 19, TypeScript, and Tailwind CSS
+    ```
+  </Step>
+  
+  <Step title="Copy the prompt">
+    Click **Copy Prompt** to get a formatted prompt combining:
+    - The skill name (`@skill-name`)
+    - Your custom context
+    
+    Or click **Copy Full Content** to copy the complete skill documentation.
+  </Step>
+  
+  <Step title="Paste into your AI assistant">
+    Paste into Claude Code, Cursor, Gemini CLI, or any other AI coding assistant.
+  </Step>
+</Steps>
+
+<Tip>
+The Prompt Builder saves you time by automatically formatting your requirements into a prompt that your AI assistant can understand immediately.
+</Tip>
+
+---
+
+## Search and Filter
+
+### Full-text Search
+
+The search bar searches across:
+- Skill names
+- Descriptions
+- Full content of SKILL.md files
+
+**Example searches:**
+- "react hooks" - finds all React-related skills mentioning hooks
+- "security audit" - finds security assessment skills
+- "typescript" - finds TypeScript development skills
+
+### Category Filters
+
+Skills are organized into categories:
+
+<Accordion title="View all categories">
+  - **Architecture** - System design, ADRs, C4, scalable patterns
+  - **Business** - Growth, pricing, CRO, SEO, go-to-market
+  - **Data & AI** - LLM apps, RAG, agents, observability, analytics
+  - **Development** - Language mastery, framework patterns, code quality
+  - **General** - Planning, docs, product ops, writing, guidelines
+  - **Infrastructure** - DevOps, cloud, serverless, deployment, CI/CD
+  - **Security** - AppSec, pentesting, vulnerability analysis, compliance
+  - **Testing** - TDD, test design, fixes, QA workflows
+  - **Workflow** - Automation, orchestration, jobs, agents
+</Accordion>
+
+Click any category to filter the skill list.
+
+---
+
+## Auto-Update Feature
+
+<Note>
+The web app automatically fetches and merges the latest skills from the original repository every time you open it. You don't need to manually run `git pull` or `npx antigravity-awesome-skills` to update.
+</Note>
+
+### How Auto-Update Works
+
+<Steps>
+  <Step title="Launch the app">
+    Run `START_APP.bat` (Windows) or `npm run app:dev` (macOS/Linux)
+  </Step>
+  
+  <Step title="Automatic sync">
+    The app checks for updates from the upstream repository
+  </Step>
+  
+  <Step title="Skills updated">
+    New skills and changes are automatically pulled and displayed
+  </Step>
+</Steps>
+
+This ensures you always have access to the latest skill catalog without manual intervention.
+
+---
+
+## Dark Mode
+
+The web app includes an adaptive light/dark interface:
+
+- Toggle manually using the theme switcher
+- Automatically respects your system preferences
+- Persists your choice across sessions
+
+---
+
+## Tips for Effective Usage
+
+<CardGroup cols={2}>
+  <Card title="Start with search" icon="magnifying-glass">
+    Use the search bar to quickly find relevant skills by keyword
+  </Card>
+  <Card title="Browse by category" icon="layer-group">
+    Explore category filters when you're not sure what you need
+  </Card>
+  <Card title="Use the Prompt Builder" icon="wand-magic-sparkles">
+    Add project-specific context to get better AI responses
+  </Card>
+  <Card title="Copy full content" icon="file">
+    For complex skills, copy the full documentation for reference
+  </Card>
+</CardGroup>
+
+---
+
+## Troubleshooting
+
+### Port already in use
+
+If port 5173 is already in use, Vite will automatically use the next available port. Check the terminal output for the actual URL.
+
+### Skills not showing
+
+<Steps>
+  <Step title="Run setup command">
+    ```bash
+    cd web-app && npm run app:setup
+    ```
+  </Step>
+  
+  <Step title="Restart the server">
+    ```bash
+    npm run app:dev
+    ```
+  </Step>
+</Steps>
+
+### Auto-update not working
+
+Ensure you have:
+- Git installed and configured
+- Network connectivity
+- Proper permissions to the repository directory
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="View Bundles" icon="boxes" href="/guides/bundles">
+    Explore curated skill collections by role
+  </Card>
+  <Card title="Learn Workflows" icon="diagram-project" href="/guides/workflows">
+    Follow step-by-step playbooks for common goals
+  </Card>
+  <Card title="Create Skills" icon="hammer" href="/guides/creating-skills">
+    Build your own custom skills
+  </Card>
+  <Card title="Getting Started" icon="rocket" href="/introduction/quickstart">
+    New to Antigravity? Start here
+  </Card>
+</CardGroup>

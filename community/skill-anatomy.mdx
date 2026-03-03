@@ -1,0 +1,348 @@
+---
+title: Skill Anatomy
+description: Understanding skill file structure and frontmatter fields
+---
+
+Want to understand how skills work under the hood? This guide breaks down every part of a skill file.
+
+## Basic Folder Structure
+
+```
+skills/
+└── my-skill-name/
+    ├── SKILL.md              ← Required: The main skill definition
+    ├── examples/             ← Optional: Example files
+    │   ├── example1.js
+    │   └── example2.py
+    ├── scripts/              ← Optional: Helper scripts
+    │   └── helper.sh
+    ├── templates/            ← Optional: Code templates
+    │   └── template.tsx
+    ├── references/           ← Optional: Reference documentation
+    │   └── api-docs.md
+    └── README.md             ← Optional: Additional documentation
+```
+
+<Note>
+**Key Rule:** Only `SKILL.md` is required. Everything else is optional!
+</Note>
+
+## SKILL.md Structure
+
+Every `SKILL.md` file has two main parts:
+
+1. **Frontmatter (Metadata)** - YAML configuration at the top
+2. **Content (Instructions)** - Markdown documentation for the AI
+
+## Part 1: Frontmatter
+
+The frontmatter is at the very top, wrapped in `---`:
+
+```markdown
+---
+name: my-skill-name
+description: "Brief description of what this skill does"
+---
+```
+
+### Required Fields
+
+<Accordion title="name">
+  - **What it is:** The skill's identifier
+  - **Format:** lowercase-with-hyphens
+  - **Must match:** The folder name exactly
+  - **Example:** `stripe-integration`
+</Accordion>
+
+<Accordion title="description">
+  - **What it is:** One-sentence summary
+  - **Format:** String in quotes
+  - **Length:** Keep it under 200 characters (validator enforces this)
+  - **Example:** `"Stripe payment integration patterns including checkout, subscriptions, and webhooks"`
+</Accordion>
+
+### Optional Fields
+
+Some skills include additional metadata:
+
+```markdown
+---
+name: my-skill-name
+description: "Brief description"
+risk: "safe" # none | safe | critical | offensive
+source: "community"
+tags: ["react", "typescript"]
+date_added: "2024-01-15"
+---
+```
+
+<Accordion title="risk">
+  Risk level classification:
+  - `none`: Pure text/reasoning (e.g., Brainstorming)
+  - `safe`: Reads files, runs safe commands (e.g., Linter)
+  - `critical`: Modifies state, deletes files, pushes to prod (e.g., Git Push)
+  - `offensive`: Pentesting/Red Team tools (requires warnings)
+  - `unknown`: Legacy/unclassified (prefer concrete level for new skills)
+</Accordion>
+
+<Accordion title="source">
+  - **What it is:** Attribution URL or origin
+  - **Format:** URL to original source or "self" if original
+  - **Example:** `"https://github.com/vercel-labs/agent-skills"`
+</Accordion>
+
+<Accordion title="date_added">
+  - **What it is:** The date when the skill was created or added to the collection
+  - **Format:** `YYYY-MM-DD` (ISO 8601 date format)
+  - **Purpose:** Helps track skill versioning and community contributions
+  - **Required:** No (optional, but recommended)
+  - **Example:** `date_added: "2024-01-15"`
+  - **Note:** Can be managed automatically with the `scripts/manage_skill_dates.py` script
+</Accordion>
+
+## Part 2: Content
+
+After the frontmatter comes the actual skill content. Here's the recommended structure:
+
+### Recommended Sections
+
+<Steps>
+  <Step title="Title (H1)">
+    ```markdown
+    # Skill Title
+    ```
+    Use a clear, descriptive title that usually matches or expands on the skill name.
+  </Step>
+  
+  <Step title="Overview">
+    ```markdown
+    ## Overview
+    
+    A brief explanation of what this skill does and why it exists.
+    2-4 sentences is perfect.
+    ```
+  </Step>
+  
+  <Step title="When to Use">
+    ```markdown
+    ## When to Use This Skill
+    
+    - Use when you need to [scenario 1]
+    - Use when working with [scenario 2]
+    - Use when the user asks about [scenario 3]
+    ```
+    
+    <Warning>
+    **This section is critical!** It helps the AI know when to activate this skill.
+    </Warning>
+  </Step>
+  
+  <Step title="Core Instructions">
+    ```markdown
+    ## How It Works
+    
+    ### Step 1: [Action]
+    
+    Detailed instructions...
+    
+    ### Step 2: [Action]
+    
+    More instructions...
+    ```
+    
+    This is the heart of your skill - clear, actionable steps.
+  </Step>
+  
+  <Step title="Examples">
+    ```markdown
+    ## Examples
+    
+    ### Example 1: [Use Case]
+    
+    \```javascript
+    // Example code
+    \```
+    
+    ### Example 2: [Another Use Case]
+    
+    \```javascript
+    // More code
+    \```
+    ```
+    
+    Examples show the AI exactly what good output looks like.
+  </Step>
+  
+  <Step title="Best Practices">
+    ```markdown
+    ## Best Practices
+    
+    - ✅ Do this
+    - ✅ Also do this
+    - ❌ Don't do this
+    - ❌ Avoid this
+    ```
+  </Step>
+</Steps>
+
+## Writing Effective Instructions
+
+### Use Clear, Direct Language
+
+<CodeGroup>
+```markdown Bad
+You might want to consider possibly checking if the user has authentication.
+```
+
+```markdown Good
+Check if the user is authenticated before proceeding.
+```
+</CodeGroup>
+
+### Use Action Verbs
+
+<CodeGroup>
+```markdown Bad
+The file should be created...
+```
+
+```markdown Good
+Create the file...
+```
+</CodeGroup>
+
+### Be Specific
+
+<CodeGroup>
+```markdown Bad
+Set up the database properly.
+```
+
+```markdown Good
+1. Create a PostgreSQL database
+2. Run migrations: `npm run migrate`
+3. Seed initial data: `npm run seed`
+```
+</CodeGroup>
+
+## Optional Components
+
+### Scripts Directory
+
+If your skill needs helper scripts:
+
+```
+scripts/
+├── setup.sh          ← Setup automation
+├── validate.py       ← Validation tools
+└── generate.js       ← Code generators
+```
+
+**Reference them in SKILL.md:**
+
+```markdown
+Run the setup script:
+\```bash
+bash scripts/setup.sh
+\```
+```
+
+### Examples Directory
+
+Real-world examples that demonstrate the skill:
+
+```
+examples/
+├── basic-usage.js
+├── advanced-pattern.ts
+└── full-implementation/
+    ├── index.js
+    └── config.json
+```
+
+### Templates Directory
+
+Reusable code templates:
+
+```
+templates/
+├── component.tsx
+├── test.spec.ts
+└── config.json
+```
+
+### References Directory
+
+External documentation or API references:
+
+```
+references/
+├── api-docs.md
+├── best-practices.md
+└── troubleshooting.md
+```
+
+## Skill Size Guidelines
+
+<Accordion title="Minimum Viable Skill">
+  - **Frontmatter:** name + description
+  - **Content:** 100-200 words
+  - **Sections:** Overview + Instructions
+</Accordion>
+
+<Accordion title="Standard Skill">
+  - **Frontmatter:** name + description
+  - **Content:** 300-800 words
+  - **Sections:** Overview + When to Use + Instructions + Examples
+</Accordion>
+
+<Accordion title="Comprehensive Skill">
+  - **Frontmatter:** name + description + optional fields
+  - **Content:** 800-2000 words
+  - **Sections:** All recommended sections
+  - **Extras:** Scripts, examples, templates
+</Accordion>
+
+<Note>
+**Rule of thumb:** Start small, expand based on feedback
+</Note>
+
+## Quality Checklist
+
+Before finalizing your skill:
+
+### Content Quality
+
+- [ ] Instructions are clear and actionable
+- [ ] Examples are realistic and helpful
+- [ ] No typos or grammar errors
+- [ ] Technical accuracy verified
+
+### Structure
+
+- [ ] Frontmatter is valid YAML
+- [ ] Name matches folder name
+- [ ] Sections are logically organized
+- [ ] Headings follow hierarchy (H1 → H2 → H3)
+
+### Completeness
+
+- [ ] Overview explains the "why"
+- [ ] Instructions explain the "how"
+- [ ] Examples show the "what"
+- [ ] Edge cases are addressed
+
+### Usability
+
+- [ ] A beginner could follow this
+- [ ] An expert would find it useful
+- [ ] The AI can parse it correctly
+- [ ] It solves a real problem
+
+## Pro Tips
+
+1. **Start with the "When to Use" section** - This clarifies the skill's purpose
+2. **Write examples first** - They help you understand what you're teaching
+3. **Test with an AI** - See if it actually works before submitting
+4. **Get feedback** - Ask others to review your skill
+5. **Iterate** - Skills improve over time based on usage

@@ -1,0 +1,429 @@
+---
+title: Installation
+description: Detailed installation instructions for all platforms and AI coding assistants
+---
+
+<Note>
+  Want to get started quickly? See the [Quickstart](/quickstart) guide. This page covers all installation methods and platform-specific details.
+</Note>
+
+## Installation methods
+
+There are three ways to install Antigravity Awesome Skills:
+
+1. **npx (recommended)**: One-line installation with automatic tool detection
+2. **git clone**: Manual installation to any directory
+3. **Kiro IDE GUI**: Import individual skills via the IDE interface
+
+## Option A: npx installation (recommended)
+
+The npx installer automatically clones or updates the repository to the correct location for your AI assistant.
+
+### Default installation (Antigravity global)
+
+```bash
+npx antigravity-awesome-skills
+```
+
+This installs to `~/.gemini/antigravity/skills` (Antigravity global path).
+
+<Tip>
+  If the directory already exists, the installer runs `git pull` to update skills to the latest version.
+</Tip>
+
+### Tool-specific installations
+
+Use flags to install for specific AI assistants:
+
+<Tabs>
+  <Tab title="Antigravity">
+    ```bash
+    # Explicit Antigravity installation (same as default)
+    npx antigravity-awesome-skills --antigravity
+    ```
+    
+    **Path**: `~/.gemini/antigravity/skills`
+    
+    **Invocation**: `Use @skill-name...` in agent mode
+  </Tab>
+  
+  <Tab title="Claude Code">
+    ```bash
+    npx antigravity-awesome-skills --claude
+    ```
+    
+    **Path**: `.claude/skills/`
+    
+    **Invocation**: `>> /skill-name help me...`
+  </Tab>
+  
+  <Tab title="Cursor">
+    ```bash
+    npx antigravity-awesome-skills --cursor
+    ```
+    
+    **Path**: `.cursor/skills/`
+    
+    **Invocation**: `@skill-name` in chat panel
+  </Tab>
+  
+  <Tab title="Gemini CLI">
+    ```bash
+    npx antigravity-awesome-skills --gemini
+    ```
+    
+    **Path**: `.gemini/skills/`
+    
+    **Invocation**: `Use skill-name...`
+  </Tab>
+  
+  <Tab title="Codex CLI">
+    ```bash
+    npx antigravity-awesome-skills --codex
+    ```
+    
+    **Path**: `.codex/skills/`
+    
+    **Invocation**: `Apply @skill-name...`
+  </Tab>
+  
+  <Tab title="Kiro CLI/IDE">
+    ```bash
+    # Global installation
+    npx antigravity-awesome-skills --kiro
+    
+    # Or use --path for workspace-specific
+    npx antigravity-awesome-skills --path .kiro/skills
+    ```
+    
+    **Path**: Global: `~/.kiro/skills/` · Workspace: `.kiro/skills/`
+    
+    **Invocation**: Skills auto-load on-demand or `/skill-name` in IDE
+  </Tab>
+  
+  <Tab title="OpenCode">
+    ```bash
+    npx antigravity-awesome-skills --path .agents/skills
+    ```
+    
+    **Path**: `.agents/skills/`
+    
+    **Invocation**: `opencode run @skill-name`
+  </Tab>
+  
+  <Tab title="AdaL CLI">
+    ```bash
+    npx antigravity-awesome-skills --path .adal/skills
+    ```
+    
+    **Path**: `.adal/skills/`
+    
+    **Invocation**: Skills auto-load on-demand
+  </Tab>
+</Tabs>
+
+### Custom path installation
+
+Install to any directory using the `--path` flag:
+
+```bash
+# Workspace-specific (e.g., .agent/skills for Antigravity workspace)
+npx antigravity-awesome-skills --path .agent/skills
+
+# Custom location
+npx antigravity-awesome-skills --path ~/my-custom-skills
+```
+
+### 404 error fallback
+
+If you see a 404 error, use the GitHub package fallback:
+
+```bash
+npx github:sickn33/antigravity-awesome-skills
+```
+
+### View all options
+
+```bash
+npx antigravity-awesome-skills --help
+```
+
+## Option B: git clone installation
+
+Manually clone the repository to your preferred location.
+
+### Platform-specific paths
+
+<CodeGroup>
+
+```bash Antigravity (global)
+# Default npx path
+git clone https://github.com/sickn33/antigravity-awesome-skills.git ~/.gemini/antigravity/skills
+```
+
+```bash Antigravity (workspace)
+# Workspace-specific path
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .agent/skills
+```
+
+```bash Claude Code
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .claude/skills
+```
+
+```bash Cursor
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .cursor/skills
+```
+
+```bash Gemini CLI
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .gemini/skills
+```
+
+```bash Codex CLI
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .codex/skills
+```
+
+```bash Kiro CLI/IDE (global)
+git clone https://github.com/sickn33/antigravity-awesome-skills.git ~/.kiro/skills
+```
+
+```bash Kiro CLI/IDE (workspace)
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .kiro/skills
+```
+
+```bash OpenCode
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .agents/skills
+```
+
+```bash AdaL CLI
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .adal/skills
+```
+
+</CodeGroup>
+
+### Windows symlink handling
+
+This repository uses symlinks for official skills. On Windows, you need to enable symlink support:
+
+<Warning>
+  **Windows users**: Enable Developer Mode or run Git as Administrator before cloning.
+</Warning>
+
+**Option 1: Enable Developer Mode** (recommended)
+
+1. Open Settings → Update & Security → For developers
+2. Enable "Developer Mode"
+3. Clone normally
+
+**Option 2: Clone with symlinks enabled**
+
+```bash
+git clone -c core.symlinks=true https://github.com/sickn33/antigravity-awesome-skills.git .agent/skills
+```
+
+## Option C: Kiro IDE GUI import
+
+Kiro IDE users can import individual skills through the GUI:
+
+<Steps>
+  <Step title="Open Agent Steering & Skills panel">
+    Navigate to the Agent Steering & Skills panel in Kiro IDE.
+  </Step>
+  
+  <Step title="Click import">
+    Click **+** → **Import a skill** → **GitHub**
+  </Step>
+  
+  <Step title="Paste skill URL">
+    Enter the GitHub URL for a specific skill:
+    
+    ```
+    https://github.com/sickn33/antigravity-awesome-skills/tree/main/skills/[skill-name]
+    ```
+    
+    **Example**:
+    ```
+    https://github.com/sickn33/antigravity-awesome-skills/tree/main/skills/brainstorming
+    ```
+  </Step>
+</Steps>
+
+<Note>
+  This imports one skill at a time. For bulk installation, use npx or git clone.
+</Note>
+
+## Verify installation
+
+After installation, verify skills are accessible:
+
+<CodeGroup>
+
+```bash Antigravity
+test -d ~/.gemini/antigravity/skills && echo "Skills installed!"
+```
+
+```bash Claude Code
+test -d .claude/skills && echo "Skills installed!"
+```
+
+```bash Cursor
+test -d .cursor/skills && echo "Skills installed!"
+```
+
+```bash Gemini CLI
+test -d .gemini/skills && echo "Skills installed!"
+```
+
+```bash Kiro CLI/IDE
+test -d ~/.kiro/skills && echo "Skills installed!"
+```
+
+```bash OpenCode
+test -d .agents/skills && echo "Skills installed!"
+```
+
+</CodeGroup>
+
+You should see "Skills installed!" in your terminal.
+
+## Invocation by platform
+
+Once installed, invoke skills using platform-specific syntax:
+
+| Tool | Type | Invocation Example | Path |
+| :--- | :--- | :--- | :--- |
+| **Claude Code** | CLI | `>> /skill-name help me...` | `.claude/skills/` |
+| **Gemini CLI** | CLI | `Use skill-name...` | `.gemini/skills/` |
+| **Codex CLI** | CLI | `Use skill-name...` | `.codex/skills/` |
+| **Kiro CLI** | CLI | Auto-loads on-demand | Global: `~/.kiro/skills/` · Workspace: `.kiro/skills/` |
+| **Kiro IDE** | IDE | `/skill-name` or auto-loads | Global: `~/.kiro/skills/` · Workspace: `.kiro/skills/` |
+| **Antigravity** | IDE | `Use @skill-name...` in agent mode | Global: `~/.gemini/antigravity/skills/` · Workspace: `.agent/skills/` |
+| **Cursor** | IDE | `@skill-name` in chat | `.cursor/skills/` |
+| **OpenCode** | CLI | `opencode run @skill-name` | `.agents/skills/` |
+| **AdaL CLI** | CLI | Auto-loads on-demand | `.adal/skills/` |
+| **GitHub Copilot** | Ext | Manual copy-paste | N/A |
+
+<Tip>
+  Most modern tools use the `@skill-name` syntax. When in doubt, try that first!
+</Tip>
+
+## Update existing installation
+
+### Automatic updates (Web App method)
+
+The Web App automatically fetches and merges the latest skills every time you open it:
+
+<Tabs>
+  <Tab title="Windows">
+    ```bash
+    # Double-click or run in terminal
+    START_APP.bat
+    ```
+  </Tab>
+  
+  <Tab title="macOS/Linux">
+    ```bash
+    cd web-app && npm run app:dev
+    ```
+  </Tab>
+</Tabs>
+
+### Manual update
+
+<Tabs>
+  <Tab title="npx installation">
+    Re-run the npx installer:
+    
+    ```bash
+    npx antigravity-awesome-skills
+    ```
+    
+    If the directory exists, it runs `git pull` automatically.
+  </Tab>
+  
+  <Tab title="git clone installation">
+    Navigate to the installation directory and pull:
+    
+    ```bash
+    cd ~/.gemini/antigravity/skills
+    git pull
+    ```
+  </Tab>
+</Tabs>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Skills installed but not detected by my AI assistant">
+    **Solution**: Install to the tool-specific path using installer flags:
+    
+    ```bash
+    # For Claude Code
+    npx antigravity-awesome-skills --claude
+    
+    # For Cursor
+    npx antigravity-awesome-skills --cursor
+    
+    # For custom path
+    npx antigravity-awesome-skills --path .agent/skills
+    ```
+  </Accordion>
+  
+  <Accordion title="npx returns 404 error">
+    **Solution**: Use the GitHub package fallback:
+    
+    ```bash
+    npx github:sickn33/antigravity-awesome-skills
+    ```
+  </Accordion>
+  
+  <Accordion title="Windows symlink errors during clone">
+    **Solution**: Enable Developer Mode or clone with symlinks:
+    
+    ```bash
+    git clone -c core.symlinks=true https://github.com/sickn33/antigravity-awesome-skills.git .agent/skills
+    ```
+    
+    Or enable Developer Mode:
+    1. Settings → Update & Security → For developers
+    2. Enable "Developer Mode"
+    3. Clone normally
+  </Accordion>
+  
+  <Accordion title="Skills not recognized after installation">
+    **Solution**:
+    
+    1. Restart your IDE/CLI
+    2. Verify installation path matches your tool
+    3. Check skills exist: `ls ~/.gemini/antigravity/skills/`
+    4. Try explicit tool flag: `npx antigravity-awesome-skills --cursor`
+  </Accordion>
+  
+  <Accordion title="Need to reinstall from scratch">
+    **Solution**: Remove the directory and reinstall:
+    
+    ```bash
+    rm -rf ~/.gemini/antigravity/skills
+    npx antigravity-awesome-skills
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Quickstart" icon="rocket" href="/quickstart">
+    Run your first skill in under 5 minutes
+  </Card>
+  
+  <Card title="Browse bundles" icon="boxes-stacked" href="https://github.com/sickn33/antigravity-awesome-skills/blob/main/docs/BUNDLES.md">
+    Explore curated skill collections by role
+  </Card>
+  
+  <Card title="Usage guide" icon="book" href="https://github.com/sickn33/antigravity-awesome-skills/blob/main/docs/USAGE.md">
+    Learn how to use skills effectively
+  </Card>
+  
+  <Card title="View all skills" icon="grid" href="https://github.com/sickn33/antigravity-awesome-skills/blob/main/CATALOG.md">
+    Browse the complete catalog of 968+ skills
+  </Card>
+</CardGroup>

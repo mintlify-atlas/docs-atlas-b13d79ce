@@ -1,0 +1,458 @@
+---
+title: 'Compatibility'
+description: 'Platform compatibility table and invocation patterns for different AI coding assistants'
+icon: 'code-compare'
+---
+
+## Universal SKILL.md Format
+
+These skills follow the universal **SKILL.md** format and work with any AI coding assistant that supports agentic skills.
+
+<Note>
+All 968+ skills in Antigravity Awesome Skills use a standardized format that makes them compatible across different AI platforms.
+</Note>
+
+## Platform Compatibility Table
+
+| Tool | Type | Status | Invocation Example | Default Path |
+|------|------|--------|-------------------|-------------|
+| **Claude Code** | CLI | ✅ Full Support | `>> /skill-name help me...` | `.claude/skills/` |
+| **Gemini CLI** | CLI | ✅ Full Support | `(User Prompt) Use skill-name...` | `.gemini/skills/` |
+| **Codex CLI** | CLI | ✅ Full Support | `(User Prompt) Use skill-name...` | `.codex/skills/` |
+| **Kiro CLI** | CLI | ✅ Full Support | `(Auto) Skills load on-demand` | Global: `~/.kiro/skills/` · Workspace: `.kiro/skills/` |
+| **Kiro IDE** | IDE | ✅ Full Support | `/skill-name or (Auto)` | Global: `~/.kiro/skills/` · Workspace: `.kiro/skills/` |
+| **Antigravity** | IDE | ✅ Native | `(Agent Mode) Use skill...` | Global: `~/.gemini/antigravity/skills/` · Workspace: `.agent/skills/` |
+| **Cursor** | IDE | ✅ Native | `@skill-name (in Chat)` | `.cursor/skills/` |
+| **GitHub Copilot** | Extension | ⚠️ Text Only | `(Paste content manually)` | N/A |
+| **OpenCode** | CLI | ✅ Full Support | `opencode run @skill-name` | `.agents/skills/` |
+| **AdaL CLI** | CLI | ✅ Full Support | `(Auto) Skills load on-demand` | `.adal/skills/` |
+
+<Warning>
+**Default installer path**: `~/.gemini/antigravity/skills` (Antigravity global). Use `--path ~/.agent/skills` for workspace-specific install. For manual clone, `.agent/skills/` works as workspace path for Antigravity.
+</Warning>
+
+<Tip>
+**OpenCode Path Update**: OpenCode path is changed to `.agents/skills` for global skills. See the [Place Files](https://opencode.ai/docs/skills/#place-files) directive on OpenCode Docs.
+</Tip>
+
+## Detailed Platform Instructions
+
+<Tabs>
+
+<Tab title="Claude Code">
+
+### Claude Code (Anthropic CLI)
+
+**Installation:**
+
+```bash
+# Using npx
+npx antigravity-awesome-skills --claude
+
+# Using git clone
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .claude/skills
+```
+
+**Invocation Pattern:**
+
+```bash
+# In your terminal with Claude Code:
+>> /skill-name help me design a feature
+
+# Alternative syntax:
+>> Use @skill-name to review my code
+```
+
+**Example:**
+
+```bash
+>> /brainstorming help me plan a SaaS MVP
+>> Use @api-security-best-practices to audit my endpoints
+```
+
+</Tab>
+
+<Tab title="Gemini CLI">
+
+### Gemini CLI (Google DeepMind)
+
+**Installation:**
+
+```bash
+# Using npx
+npx antigravity-awesome-skills --gemini
+
+# Using git clone
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .gemini/skills
+```
+
+**Invocation Pattern:**
+
+```bash
+# Natural language reference:
+Use the brainstorming skill to help me plan my app
+
+# Direct skill name:
+Apply skill-name to my code
+```
+
+**Example:**
+
+```bash
+Use the react-best-practices skill to refactor my component
+Apply seo-audit to my landing page
+```
+
+</Tab>
+
+<Tab title="Cursor">
+
+### Cursor (AI-native IDE)
+
+**Installation:**
+
+```bash
+# Using npx
+npx antigravity-awesome-skills --cursor
+
+# Using git clone
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .cursor/skills
+```
+
+**Invocation Pattern:**
+
+```bash
+# In the Cursor chat panel:
+@skill-name help me with this
+
+# Direct invocation:
+@brainstorming design a feature
+```
+
+**Example:**
+
+```bash
+@tailwind-patterns create a responsive navbar
+@test-driven-development add tests for user service
+```
+
+</Tab>
+
+<Tab title="Kiro">
+
+### Kiro CLI/IDE (AWS)
+
+**Installation:**
+
+```bash
+# Global installation
+npx antigravity-awesome-skills --kiro
+# or
+git clone https://github.com/sickn33/antigravity-awesome-skills.git ~/.kiro/skills
+
+# Workspace installation
+npx antigravity-awesome-skills --path .kiro/skills
+# or
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .kiro/skills
+```
+
+**Invocation Pattern:**
+
+```bash
+# CLI: Skills load automatically on-demand
+Help me with AWS deployment
+
+# IDE: Use slash command
+/skill-name or let the AI auto-detect
+```
+
+**Kiro IDE Import (GUI):**
+
+<Steps>
+
+<Step title="Open Skills Panel">
+Open **Agent Steering & Skills** panel in Kiro IDE
+</Step>
+
+<Step title="Click Import">
+Click **+** → **Import a skill** → **GitHub**
+</Step>
+
+<Step title="Paste Skill URL">
+Paste skill URL: `https://github.com/sickn33/antigravity-awesome-skills/tree/main/skills/[skill-name]`
+
+Example: `https://github.com/sickn33/antigravity-awesome-skills/tree/main/skills/aws-cost-optimizer`
+</Step>
+
+</Steps>
+
+<Note>
+This imports one skill at a time. For bulk installation, use the CLI method above.
+</Note>
+
+</Tab>
+
+<Tab title="Antigravity">
+
+### Antigravity IDE (Google DeepMind)
+
+**Installation:**
+
+```bash
+# Global installation (default)
+npx antigravity-awesome-skills
+# or
+npx antigravity-awesome-skills --antigravity
+# or
+git clone https://github.com/sickn33/antigravity-awesome-skills.git ~/.gemini/antigravity/skills
+
+# Workspace installation
+npx antigravity-awesome-skills --path ~/.agent/skills
+# or
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .agent/skills
+```
+
+**Invocation Pattern:**
+
+```bash
+# In Agent Mode:
+Use @skill-name to help with this task
+
+# Natural language:
+Apply the skill-name skill to my code
+```
+
+**Example:**
+
+```bash
+Use @brainstorming to plan this feature
+Apply the docker-expert skill to optimize my Dockerfile
+```
+
+</Tab>
+
+<Tab title="OpenCode">
+
+### OpenCode (Open-source CLI)
+
+**Installation:**
+
+```bash
+# Using npx
+npx antigravity-awesome-skills --path .agents/skills
+
+# Using git clone
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .agents/skills
+```
+
+**Invocation Pattern:**
+
+```bash
+# Direct command:
+opencode run @skill-name
+
+# In conversation:
+Use @skill-name to accomplish task
+```
+
+**Example:**
+
+```bash
+opencode run @brainstorming
+Use @react-patterns to build a component
+```
+
+</Tab>
+
+<Tab title="Codex CLI">
+
+### Codex CLI (OpenAI)
+
+**Installation:**
+
+```bash
+# Using npx
+npx antigravity-awesome-skills --codex
+
+# Using git clone
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .codex/skills
+```
+
+**Invocation Pattern:**
+
+```bash
+# Natural language:
+Use skill-name to help with this
+
+# Direct reference:
+Apply @skill-name to my code
+```
+
+**Example:**
+
+```bash
+Use brainstorming to plan my app
+Apply @python-patterns to refactor this function
+```
+
+</Tab>
+
+<Tab title="AdaL CLI">
+
+### AdaL CLI (SylphAI)
+
+**Installation:**
+
+```bash
+# Using npx
+npx antigravity-awesome-skills --path .adal/skills
+
+# Using git clone
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .adal/skills
+```
+
+**Invocation Pattern:**
+
+```bash
+# Auto-loading:
+Skills load automatically on-demand based on context
+
+# Explicit reference:
+Use skill-name for this task
+```
+
+**Example:**
+
+```bash
+Use test-driven-development to add tests
+Apply security best practices
+```
+
+</Tab>
+
+<Tab title="GitHub Copilot">
+
+### GitHub Copilot (VSCode Extension)
+
+**Installation:**
+
+<Warning>
+GitHub Copilot has **partial support** only. Skills must be manually copied and pasted into your prompts.
+</Warning>
+
+```bash
+# Clone to any location for reference
+git clone https://github.com/sickn33/antigravity-awesome-skills.git ~/skills-reference
+```
+
+**Usage Pattern:**
+
+<Steps>
+
+<Step title="Find the skill">
+Browse to the skill directory: `~/skills-reference/skills/[skill-name]/SKILL.md`
+</Step>
+
+<Step title="Copy content">
+Copy the entire SKILL.md content
+</Step>
+
+<Step title="Paste in Copilot Chat">
+Paste the content in GitHub Copilot Chat, followed by your specific request
+</Step>
+
+</Steps>
+
+**Example:**
+
+```
+[Paste SKILL.md content for @brainstorming]
+
+Now help me design a user authentication flow
+```
+
+</Tab>
+
+</Tabs>
+
+## Installation Options
+
+### NPX (Recommended)
+
+The npx installer automatically detects or uses the specified path:
+
+```bash
+# Default: ~/.gemini/antigravity/skills (Antigravity global)
+npx antigravity-awesome-skills
+
+# Tool-specific installations
+npx antigravity-awesome-skills --antigravity  # Same as default
+npx antigravity-awesome-skills --claude       # .claude/skills/
+npx antigravity-awesome-skills --gemini       # .gemini/skills/
+npx antigravity-awesome-skills --codex        # .codex/skills/
+npx antigravity-awesome-skills --cursor       # .cursor/skills/
+npx antigravity-awesome-skills --kiro         # ~/.kiro/skills/
+
+# Custom path
+npx antigravity-awesome-skills --path ./my-skills
+npx antigravity-awesome-skills --path .agents/skills  # OpenCode
+npx antigravity-awesome-skills --path .adal/skills    # AdaL CLI
+
+# Workspace-specific
+npx antigravity-awesome-skills --path ~/.agent/skills
+```
+
+<Tip>
+Run `npx antigravity-awesome-skills --help` for all options.
+</Tip>
+
+### Git Clone
+
+For manual installation or custom paths:
+
+```bash
+# Antigravity global (matches npx default)
+git clone https://github.com/sickn33/antigravity-awesome-skills.git ~/.gemini/antigravity/skills
+
+# Workspace-specific
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .agent/skills
+
+# Tool-specific
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .claude/skills
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .gemini/skills
+git clone https://github.com/sickn33/antigravity-awesome-skills.git .cursor/skills
+
+# Custom location
+git clone https://github.com/sickn33/antigravity-awesome-skills.git ~/my-custom-path
+```
+
+## Updating Skills
+
+If the directory already exists, the installer runs `git pull` to update:
+
+```bash
+# Using npx (automatic update)
+npx antigravity-awesome-skills
+
+# Manual update
+cd ~/.gemini/antigravity/skills  # or your installation path
+git pull origin main
+```
+
+## Path Reference Quick Guide
+
+| Platform | Default Path | Alternative |
+|----------|--------------|-------------|
+| Antigravity | `~/.gemini/antigravity/skills/` | `.agent/skills/` (workspace) |
+| Claude Code | `.claude/skills/` | - |
+| Gemini CLI | `.gemini/skills/` | - |
+| Codex CLI | `.codex/skills/` | - |
+| Cursor | `.cursor/skills/` | Project root |
+| Kiro CLI/IDE | `~/.kiro/skills/` (global) | `.kiro/skills/` (workspace) |
+| OpenCode | `.agents/skills/` | - |
+| AdaL CLI | `.adal/skills/` | - |
+| GitHub Copilot | N/A | Manual copy/paste |
+
+<Note>
+Most tools support both global and workspace-level installations. Global installations are available across all projects, while workspace installations are project-specific.
+</Note>

@@ -1,0 +1,271 @@
+---
+title: Security Guidelines
+description: Security guardrails and policy for offensive and defensive skills
+---
+
+Antigravity Awesome Skills is a powerful toolkit. With great power comes great responsibility. This document defines the **Rules of Engagement** for all security and offensive capabilities in this repository.
+
+## Offensive Skills Policy (The "Red Line")
+
+<Warning>
+**What is an Offensive Skill?**
+
+Any skill designed to penetrate, exploit, disrupt, or simulate attacks against systems.
+
+**Examples:** Pentesting, SQL Injection, Phishing Simulation, Red Teaming.
+</Warning>
+
+### 1. The "Authorized Use Only" Disclaimer
+
+Every offensive skill **MUST** begin with this exact disclaimer in its `SKILL.md`:
+
+```markdown
+⚠️ AUTHORIZED USE ONLY
+This skill is for educational purposes or authorized security assessments only.
+You must have explicit, written permission from the system owner before using this tool.
+Misuse of this tool is illegal and strictly prohibited.
+```
+
+<Note>
+This disclaimer is **mandatory** for all skills with `risk: offensive` in their frontmatter.
+</Note>
+
+### 2. Mandatory User Confirmation
+
+Offensive skills must **NEVER** run fully autonomously.
+
+<Steps>
+  <Step title="Requirement">
+    The skill description/instructions must explicitly tell the agent to _ask for user confirmation_ before executing any exploit or attack command.
+  </Step>
+  
+  <Step title="Agent Instruction">
+    Include clear instructions like:
+    - "Ask the user to verify the target URL/IP before running."
+    - "Confirm authorization and scope with the user before proceeding."
+    - "Request written permission verification before executing."
+  </Step>
+</Steps>
+
+**Example:**
+
+```markdown
+## Before Using This Skill
+
+1. Ask the user: "Do you have written authorization to test this system?"
+2. Verify the target scope: "Please confirm the target URL/IP and testing boundaries."
+3. Only proceed after explicit user confirmation.
+```
+
+### 3. Safe by Design
+
+<Accordion title="No Weaponized Payloads">
+  Skills should not include active malware, ransomware, or non-educational exploits.
+  
+  ✅ **Allowed:**
+  - Educational proof-of-concept code
+  - Benign test payloads
+  - Detection and analysis tools
+  
+  ❌ **Not Allowed:**
+  - Active malware binaries
+  - Ransomware encryption code
+  - Destructive payloads
+</Accordion>
+
+<Accordion title="Sandbox Recommended">
+  Instructions should recommend running in a contained environment (Docker/VM).
+  
+  **Example disclaimer:**
+  ```markdown
+  ## Security Notice
+  
+  ⚠️ Run this skill in an isolated environment:
+  - Use Docker containers
+  - Use dedicated VMs
+  - Do not run on production systems
+  ```
+</Accordion>
+
+## Defensive Skills Policy
+
+<Note>
+**What is a Defensive Skill?**
+
+Tools for hardening, auditing, monitoring, or protecting systems.
+
+**Examples:** Linting, Log Analysis, Configuration Auditing.
+</Note>
+
+### Data Privacy
+
+Defensive skills must not upload data to 3rd party servers without explicit user consent.
+
+**Requirements:**
+
+- Clearly document any external API calls
+- Request user permission before transmitting data
+- Provide opt-out mechanisms
+- Specify data retention policies
+
+**Example:**
+
+```markdown
+## Data Privacy
+
+This skill may send the following data to [Service Name]:
+- File hashes (not file contents)
+- Configuration checksums
+
+Do you want to enable cloud-based analysis? (yes/no)
+```
+
+### Non-Destructive by Default
+
+Audits should be read-only by default.
+
+<Steps>
+  <Step title="Read-only operations">
+    Default behavior should not modify files or system state.
+  </Step>
+  
+  <Step title="Explicit confirmation for changes">
+    If the skill offers remediation/fixes, require user confirmation before applying.
+  </Step>
+  
+  <Step title="Dry-run mode">
+    Provide a `--dry-run` or preview mode for destructive operations.
+  </Step>
+</Steps>
+
+## Risk Level Requirements
+
+### Risk: offensive
+
+<Warning>
+Skills with `risk: offensive` **MUST** include:
+
+1. ⚠️ "AUTHORIZED USE ONLY" disclaimer
+2. User confirmation prompts before execution
+3. Sandbox environment recommendations
+4. Legal compliance warnings
+</Warning>
+
+### Risk: critical
+
+Skills with `risk: critical` **SHOULD** include:
+
+1. Clear warnings about destructive operations
+2. Backup recommendations
+3. Confirmation prompts for critical actions
+4. Rollback procedures
+
+### Risk: safe
+
+Skills with `risk: safe` **SHOULD**:
+
+1. Be read-only or minimally invasive
+2. Document any file system access
+3. Avoid network calls without disclosure
+
+### Risk: none
+
+Skills with `risk: none`:
+
+1. Pure reasoning/text generation
+2. No system access
+3. No external API calls
+
+## Legal Disclaimer
+
+By using this repository, you agree that:
+
+<Steps>
+  <Step title="Personal Responsibility">
+    You are responsible for your own actions.
+  </Step>
+  
+  <Step title="No Liability">
+    The authors and contributors are not liable for any damage caused by these tools.
+  </Step>
+  
+  <Step title="Legal Compliance">
+    You will comply with all local, state, and federal laws regarding cybersecurity.
+  </Step>
+</Steps>
+
+## Reporting Security Issues
+
+If you discover a security issue in any skill:
+
+1. **Do not** open a public issue
+2. Email security@[repository-domain] with details
+3. Include:
+   - Skill name and location
+   - Description of the security concern
+   - Potential impact
+   - Suggested remediation
+
+<Note>
+We take security seriously and will respond to reports within 48 hours.
+</Note>
+
+## Enforcement
+
+Skills that violate these guidelines will be:
+
+1. **Flagged** during code review
+2. **Blocked** from merging until compliant
+3. **Removed** if discovered post-merge
+4. **Reported** to GitHub if they contain malicious code
+
+## Examples
+
+### Good: SQL Injection Testing Skill
+
+```markdown
+---
+name: sql-injection-tester
+description: "Test web applications for SQL injection vulnerabilities"
+risk: offensive
+---
+
+# SQL Injection Testing
+
+⚠️ AUTHORIZED USE ONLY
+This skill is for educational purposes or authorized security assessments only.
+You must have explicit, written permission from the system owner before using this tool.
+Misuse of this tool is illegal and strictly prohibited.
+
+## Before Using This Skill
+
+Before testing any system, you MUST:
+
+1. Ask the user: "Do you have written authorization to test this application?"
+2. Confirm the target scope: "What is the target URL and approved testing scope?"
+3. Wait for explicit user confirmation before proceeding
+
+## Recommended Environment
+
+⚠️ Run this skill in an isolated environment:
+- Use Docker containers
+- Use dedicated testing VMs
+- Do not run on production systems
+```
+
+### Bad: SQL Injection Testing Skill
+
+```markdown
+---
+name: sql-injection-tester
+description: "Test web applications for SQL injection vulnerabilities"
+risk: safe  ❌ Wrong risk level
+---
+
+# SQL Injection Testing
+
+## How to Use
+
+1. Run the scanner on the target URL  ❌ No authorization check
+2. Exploit any vulnerabilities found  ❌ No user confirmation
+```

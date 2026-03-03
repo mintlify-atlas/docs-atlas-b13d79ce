@@ -1,0 +1,238 @@
+---
+title: Quality Bar & Validation
+description: Quality standards and validation requirements for skills
+---
+
+To transform **Antigravity Awesome Skills** from a collection of scripts into a trusted platform, every skill must meet a specific standard of quality and safety.
+
+## The "Validated" Badge ✅
+
+A skill earns the "Validated" badge only if it passes these **5 automated checks**:
+
+### 1. Metadata Integrity
+
+The `SKILL.md` frontmatter must be valid YAML and contain:
+
+<Accordion title="name">
+  - Kebab-case format
+  - Must match folder name exactly
+  - Example: `stripe-integration`
+</Accordion>
+
+<Accordion title="description">
+  - Under 200 characters
+  - Clear value proposition
+  - Focus on WHEN to use the skill
+  - Example: `"Stripe payment integration patterns including checkout, subscriptions, and webhooks"`
+</Accordion>
+
+<Accordion title="risk">
+  One of: `[none, safe, critical, offensive, unknown]`
+  
+  - Use `unknown` only for legacy or unclassified skills
+  - Prefer a concrete level for new skills
+  
+  See [Risk Classification](#3-safety-risk-classification) below for details.
+</Accordion>
+
+<Accordion title="source">
+  - URL to original source, or
+  - "self" if original work
+  - Example: `"https://github.com/vercel-labs/agent-skills"`
+</Accordion>
+
+### 2. Clear Triggers ("When to use")
+
+The skill MUST have a section explicitly stating when to trigger it.
+
+<CodeGroup>
+```markdown Good
+Use when the user asks to debug a React component.
+```
+
+```markdown Bad
+This skill helps you with code.
+```
+</CodeGroup>
+
+**Accepted headings:**
+- `## When to Use`
+- `## Use this skill when`
+- `## When to Use This Skill`
+
+### 3. Safety & Risk Classification
+
+Every skill must declare its risk level:
+
+<Steps>
+  <Step title="none" icon="circle">
+    🟢 **none**: Pure text/reasoning (e.g., Brainstorming)
+    
+    - No file system access
+    - No external commands
+    - No state modifications
+  </Step>
+  
+  <Step title="safe" icon="circle">
+    🔵 **safe**: Reads files, runs safe commands (e.g., Linter)
+    
+    - Read-only file operations
+    - Non-destructive analysis
+    - Safe CLI tools
+  </Step>
+  
+  <Step title="critical" icon="triangle">
+    🟠 **critical**: Modifies state, deletes files, pushes to prod (e.g., Git Push)
+    
+    - File modifications
+    - Database changes
+    - Production deployments
+    - Destructive operations
+  </Step>
+  
+  <Step title="offensive" icon="alert-triangle">
+    🔴 **offensive**: Pentesting/Red Team tools
+    
+    <Warning>
+    **MUST** have "Authorized Use Only" warning in SKILL.md
+    </Warning>
+    
+    - Security testing
+    - Penetration testing
+    - Attack simulation
+  </Step>
+</Steps>
+
+### 4. Copy-Pasteable Examples
+
+At least one code block or interaction example that a user (or agent) can immediately use.
+
+**Good example:**
+
+```javascript
+// Example: Stripe checkout session
+const session = await stripe.checkout.sessions.create({
+  payment_method_types: ['card'],
+  line_items: [{
+    price: 'price_1234',
+    quantity: 1,
+  }],
+  mode: 'payment',
+  success_url: 'https://example.com/success',
+  cancel_url: 'https://example.com/cancel',
+});
+```
+
+### 5. Explicit Limitations
+
+A list of known edge cases or things the skill _cannot_ do.
+
+**Examples:**
+- "Does not work on Windows without WSL."
+- "Requires Node.js 18 or higher."
+- "Cannot handle binary file formats."
+
+## Support Levels
+
+We also categorize skills by who maintains them:
+
+| Level | Badge | Meaning |
+| :--- | :--- | :--- |
+| **Official** | 🟣 | Maintained by the core team. High reliability. |
+| **Community** | ⚪ | Contributed by the ecosystem. Best effort support. |
+| **Verified** | ✨ | Community skill that has passed deep manual review. |
+
+## How to Validate Your Skill
+
+The canonical validator is `scripts/validate_skills.py`. Run `npm run validate` (or `npm run validate:strict`) before submitting a PR:
+
+```bash
+npm run validate       # soft mode (warnings only)
+npm run validate:strict  # strict mode (CI uses this)
+```
+
+<Note>
+**CI Requirement:** Pull requests must pass `npm run validate:strict` to be merged.
+</Note>
+
+## Validation Output
+
+The validator checks:
+
+- ✅ `SKILL.md` exists
+- ✅ Valid YAML frontmatter
+- ✅ Required fields present (`name`, `description`)
+- ✅ `name` matches folder name
+- ✅ Description under 200 characters
+- ✅ Valid `risk` level
+- ✅ "When to Use" section present
+- ✅ At least one code example
+- ✅ No broken internal links
+
+## Common Validation Errors
+
+<Accordion title="Name mismatch">
+  **Error:** `name` in frontmatter doesn't match folder name
+  
+  **Fix:** Ensure the `name` field exactly matches the directory name (case-sensitive, kebab-case)
+  
+  ```markdown
+  Folder: skills/stripe-integration/
+  Frontmatter: name: stripe-integration ✅
+  Frontmatter: name: Stripe-Integration ❌
+  ```
+</Accordion>
+
+<Accordion title="Description too long">
+  **Error:** Description exceeds 200 characters
+  
+  **Fix:** Shorten to focus on the core value and trigger conditions
+  
+  ```markdown
+  ❌ "This skill provides comprehensive guidance for integrating Stripe payment processing into your application, including detailed instructions for checkout sessions, subscriptions, webhooks, and more advanced features like payment intents and customer management."
+  
+  ✅ "Stripe payment integration patterns including checkout, subscriptions, and webhooks"
+  ```
+</Accordion>
+
+<Accordion title="Missing 'When to Use'">
+  **Error:** No "When to Use" section found
+  
+  **Fix:** Add a section with one of these headings:
+  - `## When to Use`
+  - `## When to Use This Skill`
+  - `## Use this skill when`
+</Accordion>
+
+<Accordion title="Invalid risk level">
+  **Error:** `risk` field contains invalid value
+  
+  **Fix:** Use only: `none`, `safe`, `critical`, `offensive`, or `unknown`
+  
+  ```yaml
+  ---
+  risk: low ❌
+  risk: safe ✅
+  ---
+  ```
+</Accordion>
+
+## Best Practices
+
+<Steps>
+  <Step title="Validate early and often">
+    Run `npm run validate` before committing changes to catch issues early.
+  </Step>
+  
+  <Step title="Start with the template">
+    Use the skill template from the [Contributing Guide](/community/contributing) to ensure all required sections are present.
+  </Step>
+  
+  <Step title="Test with real AI">
+    Before submitting, test your skill with an actual AI assistant to ensure it works as intended.
+  </Step>
+  
+  <Step title="Keep descriptions focused">
+    Focus on WHEN to use the skill, not WHAT it does in detail. Details go in the Overview section.
+  </Step>
+</Steps>

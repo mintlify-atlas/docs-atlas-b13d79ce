@@ -1,0 +1,537 @@
+---
+title: 'Creating Custom Skills'
+description: 'Learn how to create high-quality skills for AI coding assistants'
+---
+
+<Note>
+Skills are small markdown files that teach AI assistants how to perform specific tasks. This guide shows you how to create effective, high-quality skills.
+</Note>
+
+## What Makes a Good Skill?
+
+A good skill is:
+- **Clear**: Instructions are easy to understand
+- **Actionable**: Provides specific steps
+- **Complete**: Covers the happy path and edge cases
+- **Useful**: Solves a real problem
+
+---
+
+## Basic Folder Structure
+
+<CodeGroup>
+```bash Minimal Skill
+skills/
+└── my-skill-name/
+    └── SKILL.md              # Required
+```
+
+```bash Complete Skill
+skills/
+└── my-skill-name/
+    ├── SKILL.md              # Required
+    ├── examples/             # Optional
+    │   ├── example1.js
+    │   └── example2.py
+    ├── scripts/              # Optional
+    │   └── helper.sh
+    ├── templates/            # Optional
+    │   └── template.tsx
+    ├── references/           # Optional
+    │   └── api-docs.md
+    └── README.md             # Optional
+```
+</CodeGroup>
+
+<Tip>
+Only `SKILL.md` is required. Add optional directories when they add value.
+</Tip>
+
+---
+
+## SKILL.md Structure
+
+Every `SKILL.md` has two main parts:
+
+### 1. Frontmatter (Metadata)
+
+The frontmatter is YAML wrapped in `---`:
+
+```markdown
+---
+name: my-skill-name
+description: "Brief description of what this skill does"
+risk: "safe"
+source: "community"
+tags: ["react", "typescript"]
+date_added: "2024-01-15"
+---
+```
+
+### Required Fields
+
+<Accordion title="name">
+  - **Format:** lowercase-with-hyphens
+  - **Must match:** The folder name exactly
+  - **Example:** `stripe-integration`
+</Accordion>
+
+<Accordion title="description">
+  - **Format:** String in quotes
+  - **Length:** Under 200 characters
+  - **Example:** `"Stripe payment integration patterns including checkout, subscriptions, and webhooks"`
+</Accordion>
+
+### Optional Fields
+
+<Accordion title="risk">
+  **Risk level classification:**
+  
+  - `none` - Pure text/reasoning (e.g., Brainstorming)
+  - `safe` - Reads files, runs safe commands (e.g., Linter)
+  - `critical` - Modifies state, deletes files (e.g., Git Push)
+  - `offensive` - Pentesting/Red Team tools (requires "Authorized Use Only" warning)
+  - `unknown` - Legacy or unclassified (avoid for new skills)
+</Accordion>
+
+<Accordion title="source">
+  - **Purpose:** Attribution
+  - **Examples:** `"community"`, `"https://github.com/user/repo"`, `"self"`
+</Accordion>
+
+<Accordion title="tags">
+  - **Format:** Array of strings
+  - **Example:** `["react", "typescript", "frontend"]`
+</Accordion>
+
+<Accordion title="date_added">
+  - **Format:** `YYYY-MM-DD` (ISO 8601)
+  - **Purpose:** Track skill versioning
+  - **Example:** `"2024-01-15"`
+</Accordion>
+
+---
+
+## Content Sections
+
+After the frontmatter, add the skill content:
+
+### Recommended Structure
+
+<Steps>
+  <Step title="Title (H1)">
+    ```markdown
+    # Skill Title
+    ```
+    Use a clear, descriptive title that matches or expands on the skill name.
+  </Step>
+  
+  <Step title="Overview">
+    ```markdown
+    ## Overview
+    
+    A brief explanation of what this skill does and why it exists.
+    2-4 sentences is perfect.
+    ```
+  </Step>
+  
+  <Step title="When to Use">
+    ```markdown
+    ## When to Use This Skill
+    
+    - Use when you need to [scenario 1]
+    - Use when working with [scenario 2]
+    - Use when the user asks about [scenario 3]
+    ```
+    
+    <Note>
+    This section helps the AI know when to activate this skill. It's critical for discoverability.
+    </Note>
+  </Step>
+  
+  <Step title="Core Instructions">
+    ```markdown
+    ## How It Works
+    
+    ### Step 1: [Action]
+    
+    Detailed instructions...
+    
+    ### Step 2: [Action]
+    
+    More instructions...
+    ```
+    
+    This is the heart of your skill - clear, actionable steps.
+  </Step>
+  
+  <Step title="Examples">
+    ```markdown
+    ## Examples
+    
+    ### Example 1: [Use Case]
+    
+    \`\`\`javascript
+    // Example code
+    \`\`\`
+    
+    ### Example 2: [Another Use Case]
+    
+    \`\`\`javascript
+    // More code
+    \`\`\`
+    ```
+    
+    Examples show the AI exactly what good output looks like.
+  </Step>
+  
+  <Step title="Best Practices">
+    ```markdown
+    ## Best Practices
+    
+    - ✅ Do this
+    - ✅ Also do this
+    - ❌ Don't do this
+    - ❌ Avoid this
+    ```
+  </Step>
+</Steps>
+
+---
+
+## Writing Effective Instructions
+
+### Use Clear, Direct Language
+
+<CardGroup cols={2}>
+  <Card title="❌ Bad" color="#ef4444">
+    You might want to consider possibly checking if the user has authentication.
+  </Card>
+  <Card title="✅ Good" color="#10b981">
+    Check if the user is authenticated before proceeding.
+  </Card>
+</CardGroup>
+
+### Use Action Verbs
+
+<CardGroup cols={2}>
+  <Card title="❌ Bad" color="#ef4444">
+    The file should be created...
+  </Card>
+  <Card title="✅ Good" color="#10b981">
+    Create the file...
+  </Card>
+</CardGroup>
+
+### Be Specific
+
+<CardGroup cols={2}>
+  <Card title="❌ Bad" color="#ef4444">
+    Set up the database properly.
+  </Card>
+  <Card title="✅ Good" color="#10b981">
+    1. Create a PostgreSQL database
+    2. Run migrations: `npm run migrate`
+    3. Seed initial data: `npm run seed`
+  </Card>
+</CardGroup>
+
+---
+
+## Quality Bar
+
+To earn the "Validated" badge, your skill must pass 5 automated checks:
+
+<Steps>
+  <Step title="Metadata Integrity">
+    - Valid YAML frontmatter
+    - Required fields present (name, description)
+    - Risk level specified
+    - Source attribution included
+  </Step>
+  
+  <Step title="Clear Triggers">
+    Must have a "When to Use" section explicitly stating when to activate the skill.
+    
+    Accepted headings:
+    - `## When to Use`
+    - `## Use this skill when`
+    - `## When to Use This Skill`
+  </Step>
+  
+  <Step title="Safety Classification">
+    Every skill must declare its risk level:
+    - 🟢 `none` - Pure text/reasoning
+    - 🔵 `safe` - Reads files, runs safe commands
+    - 🟠 `critical` - Modifies state, deletes files
+    - 🔴 `offensive` - Pentesting/Red Team (requires warning)
+  </Step>
+  
+  <Step title="Copy-Pasteable Examples">
+    At least one code block or interaction example that users can immediately use.
+  </Step>
+  
+  <Step title="Explicit Limitations">
+    A list of known edge cases or things the skill cannot do.
+    
+    **Example:** "Does not work on Windows without WSL."
+  </Step>
+</Steps>
+
+---
+
+## Validation
+
+Run validation before submitting:
+
+<CodeGroup>
+```bash Soft Mode (warnings only)
+npm run validate
+```
+
+```bash Strict Mode (CI)
+npm run validate:strict
+```
+
+```bash Workflow/Bundle References
+python3 scripts/validate_references.py
+```
+</CodeGroup>
+
+<Tip>
+Run `npm run validate:strict` before submitting a PR. This is the same check that runs in CI.
+</Tip>
+
+---
+
+## Optional Components
+
+### Examples Directory
+
+Real-world examples demonstrating the skill:
+
+```
+examples/
+├── basic-usage.js
+├── advanced-pattern.ts
+└── full-implementation/
+    ├── index.js
+    └── config.json
+```
+
+### Scripts Directory
+
+Helper scripts for automation:
+
+```
+scripts/
+├── setup.sh          # Setup automation
+├── validate.py       # Validation tools
+└── generate.js       # Code generators
+```
+
+**Reference in SKILL.md:**
+
+```markdown
+Run the setup script:
+\`\`\`bash
+bash scripts/setup.sh
+\`\`\`
+```
+
+### Templates Directory
+
+Reusable code templates:
+
+```
+templates/
+├── component.tsx
+├── test.spec.ts
+└── config.json
+```
+
+### References Directory
+
+External documentation or API references:
+
+```
+references/
+├── api-docs.md
+├── best-practices.md
+└── troubleshooting.md
+```
+
+---
+
+## Skill Size Guidelines
+
+<Accordion title="Minimum Viable Skill">
+  - **Frontmatter:** name + description
+  - **Content:** 100-200 words
+  - **Sections:** Overview + Instructions
+</Accordion>
+
+<Accordion title="Standard Skill">
+  - **Frontmatter:** name + description
+  - **Content:** 300-800 words
+  - **Sections:** Overview + When to Use + Instructions + Examples
+</Accordion>
+
+<Accordion title="Comprehensive Skill">
+  - **Frontmatter:** name + description + optional fields
+  - **Content:** 800-2000 words
+  - **Sections:** All recommended sections
+  - **Extras:** Scripts, examples, templates
+</Accordion>
+
+<Tip>
+Start small, expand based on feedback. Don't over-engineer your first skill.
+</Tip>
+
+---
+
+## Contributing Your Skill
+
+<Steps>
+  <Step title="Fork the repository">
+    Fork [antigravity-awesome-skills](https://github.com/sickn33/antigravity-awesome-skills) on GitHub.
+  </Step>
+  
+  <Step title="Create skill directory">
+    ```bash
+    mkdir skills/my-skill-name
+    cd skills/my-skill-name
+    ```
+  </Step>
+  
+  <Step title="Write SKILL.md">
+    Follow the structure and guidelines above.
+  </Step>
+  
+  <Step title="Add optional files">
+    Add examples, scripts, templates, or references if helpful.
+  </Step>
+  
+  <Step title="Run validation">
+    ```bash
+    npm run validate:strict
+    ```
+  </Step>
+  
+  <Step title="Submit Pull Request">
+    Open a PR with a clear description of what your skill does and why it's useful.
+  </Step>
+</Steps>
+
+---
+
+## Common Mistakes to Avoid
+
+### Too Vague
+
+<CardGroup cols={2}>
+  <Card title="❌ Bad" color="#ef4444">
+    Make the code better.
+  </Card>
+  <Card title="✅ Good" color="#10b981">
+    1. Extract repeated logic into functions
+    2. Add error handling for edge cases
+    3. Write unit tests for core functionality
+  </Card>
+</CardGroup>
+
+### Too Complex
+
+<CardGroup cols={2}>
+  <Card title="❌ Bad" color="#ef4444">
+    5000 words of dense technical jargon
+  </Card>
+  <Card title="✅ Good" color="#10b981">
+    Break into multiple skills or use progressive disclosure
+  </Card>
+</CardGroup>
+
+### No Examples
+
+<CardGroup cols={2}>
+  <Card title="❌ Bad" color="#ef4444">
+    Instructions without any code examples
+  </Card>
+  <Card title="✅ Good" color="#10b981">
+    At least 2-3 realistic examples showing usage
+  </Card>
+</CardGroup>
+
+### Outdated Information
+
+<CardGroup cols={2}>
+  <Card title="❌ Bad" color="#ef4444">
+    Use React class components...
+  </Card>
+  <Card title="✅ Good" color="#10b981">
+    Keep skills updated with current best practices
+  </Card>
+</CardGroup>
+
+---
+
+## Learning from Examples
+
+### Study These Skills
+
+**For Beginners:**
+- `skills/brainstorming/SKILL.md` - Clear structure
+- `skills/git-pushing/SKILL.md` - Simple and focused
+- `skills/copywriting/SKILL.md` - Good examples
+
+**For Advanced:**
+- `skills/systematic-debugging/SKILL.md` - Comprehensive
+- `skills/react-best-practices/SKILL.md` - Multiple files
+- `skills/loki-mode/SKILL.md` - Complex workflows
+
+---
+
+## Pro Tips
+
+<CardGroup cols={2}>
+  <Card title="Start with 'When to Use'" icon="lightbulb">
+    This clarifies the skill's purpose before you write instructions
+  </Card>
+  <Card title="Write examples first" icon="code">
+    Examples help you understand what you're teaching
+  </Card>
+  <Card title="Test with an AI" icon="robot">
+    See if it actually works before submitting
+  </Card>
+  <Card title="Get feedback" icon="comments">
+    Ask others to review your skill
+  </Card>
+  <Card title="Iterate" icon="arrows-rotate">
+    Skills improve over time based on usage
+  </Card>
+</CardGroup>
+
+---
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="View Examples" icon="books" href="https://github.com/sickn33/antigravity-awesome-skills/tree/main/skills">
+    Browse existing skills in the repository
+  </Card>
+  <Card title="Read Quality Bar" icon="award" href="https://github.com/sickn33/antigravity-awesome-skills/blob/main/docs/QUALITY_BAR.md">
+    Understand validation requirements
+  </Card>
+  <Card title="Explore Workflows" icon="diagram-project" href="/guides/workflows">
+    See how skills work together
+  </Card>
+  <Card title="Join Community" icon="users" href="https://github.com/sickn33/antigravity-awesome-skills/discussions">
+    Connect with other skill creators
+  </Card>
+</CardGroup>
+
+---
+
+<Note>
+Every expert was once a beginner. Start simple, learn from feedback, and improve over time!
+</Note>

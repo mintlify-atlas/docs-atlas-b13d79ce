@@ -1,80 +1,310 @@
 ---
 title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+description: "Get started with Antigravity Awesome Skills in under 5 minutes. Install 968+ agentic skills and run your first skill."
 ---
 
-## Get started in three steps
+<Note>
+This is a quickstart guide to get you up and running fast. For more detailed information, see the [Complete Installation Guide](/installation).
+</Note>
 
-Get your documentation site running locally and make your first customization.
+## Installation
 
-### Step 1: Set up your local environment
+Get 968+ skills installed and ready to use in seconds.
 
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
+<Steps>
+  <Step title="Install via npx">
+    Run the installer to automatically set up skills for your AI assistant:
 
-### Step 2: Deploy your changes
+    <CodeGroup>
+      ```bash Antigravity (Default)
+      npx antigravity-awesome-skills
+      ```
 
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+      ```bash Claude Code
+      npx antigravity-awesome-skills --claude
+      ```
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+      ```bash Cursor
+      npx antigravity-awesome-skills --cursor
+      ```
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+      ```bash Gemini CLI
+      npx antigravity-awesome-skills --gemini
+      ```
 
-### Step 3: Go live
+      ```bash OpenCode
+      npx antigravity-awesome-skills --path .agents/skills
+      ```
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+      ```bash Kiro CLI/IDE
+      npx antigravity-awesome-skills --kiro
+      ```
+    </CodeGroup>
 
-## Next steps
+    <Tip>
+      The default installation path is `~/.gemini/antigravity/skills` which works globally with Antigravity IDE. Use tool-specific flags or `--path` for custom locations.
+    </Tip>
+  </Step>
 
-Now that you have your docs running, explore these key features:
+  <Step title="Verify installation">
+    Confirm the skills directory exists and contains the repository:
 
-<CardGroup cols={2}>
+    ```bash
+    test -d ~/.gemini/antigravity/skills && echo "✓ Skills installed successfully"
+    ```
 
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
+    You can also check the number of available skills:
 
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
+    ```bash
+    ls ~/.gemini/antigravity/skills/skills | wc -l
+    ```
+  </Step>
+</Steps>
 
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
+## Your First Skill
 
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
+Try using `@brainstorming` to experience how skills transform your AI assistant into a structured expert.
 
-</CardGroup>
+<Tip>
+Skills work across all major AI coding assistants: Claude Code, Gemini CLI, Codex CLI, Kiro, Antigravity, Cursor, and OpenCode.
+</Tip>
+
+### Example: Plan a SaaS MVP
+
+<CodeGroup>
+  ```text Claude Code
+  >> Use @brainstorming to help me design a SaaS MVP for project management
+  ```
+
+  ```text Cursor
+  @brainstorming help me design a SaaS MVP for project management
+  ```
+
+  ```text Gemini CLI / Codex CLI
+  Use @brainstorming to help me design a SaaS MVP for project management
+  ```
+
+  ```text Antigravity IDE
+  Use @brainstorming to help me design a SaaS MVP for project management
+  ```
+</CodeGroup>
+
+**What happens next:**
+- The AI loads the brainstorming skill
+- It asks you structured questions (one at a time)
+- It guides you through understanding, requirements, and design
+- You answer each question
+- You get a complete design document—without writing code yet!
+
+## Choose Your Role-Based Bundle
+
+Bundles are curated skill lists organized by role. Pick 3-5 skills from your bundle to start. You already have all skills installed—bundles just help you discover the right ones.
+
+<Tabs>
+  <Tab title="Web Dev">
+    **The "Web Wizard" Pack** — For building modern, high-performance web apps
+
+    Essential skills to start with:
+    - `@frontend-design` — UI guidelines and aesthetics
+    - `@react-best-practices` — React & Next.js performance optimization
+    - `@react-patterns` — Modern React patterns and principles
+    - `@nextjs-best-practices` — Next.js App Router patterns
+    - `@tailwind-patterns` — Tailwind CSS v4 styling superpowers
+    - `@seo-audit` — Get found on Google
+
+    [View complete bundle →](/bundles#web-wizard)
+  </Tab>
+
+  <Tab title="Security">
+    **The "Security Engineer" Pack** — For pentesting, auditing, and hardening
+
+    Essential skills to start with:
+    - `@ethical-hacking-methodology` — The Bible of ethical hacking
+    - `@api-security-best-practices` — Secure API design patterns
+    - `@vulnerability-scanner` — Advanced vulnerability analysis
+    - `@top-web-vulnerabilities` — OWASP-aligned vulnerability taxonomy
+    - `@security-auditor` — Comprehensive security audits
+
+    [View complete bundle →](/bundles#security-engineer)
+  </Tab>
+
+  <Tab title="Full-Stack">
+    **The "Full-Stack Developer" Pack** — For end-to-end web application development
+
+    Essential skills to start with:
+    - `@senior-fullstack` — Complete fullstack development guide
+    - `@frontend-developer` — React 19+ and Next.js 15+ expertise
+    - `@backend-dev-guidelines` — Node.js/Express/TypeScript patterns
+    - `@api-patterns` — REST vs GraphQL vs tRPC selection
+    - `@database-design` — Schema design and ORM selection
+    - `@stripe-integration` — Payments and subscriptions
+
+    [View complete bundle →](/bundles#full-stack-developer)
+  </Tab>
+
+  <Tab title="DevOps">
+    **The "DevOps & Cloud" Pack** — For infrastructure and scaling
+
+    Essential skills to start with:
+    - `@docker-expert` — Master containers and multi-stage builds
+    - `@aws-serverless` — Serverless on AWS (Lambda, DynamoDB)
+    - `@kubernetes-architect` — K8s architecture and GitOps
+    - `@terraform-specialist` — Infrastructure as Code mastery
+    - `@deployment-procedures` — Safe rollout strategies
+    - `@bash-linux` — Terminal wizardry
+
+    [View complete bundle →](/bundles#devops-cloud)
+  </Tab>
+</Tabs>
 
 <Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
+**Important:** Bundles are NOT separate installations! When you installed the repository, you got all 968+ skills. Bundles are recommended lists to help you pick which skills to use for your role.
 </Note>
+
+## Complete Example: Building a Feature End-to-End
+
+See how skills work together in a real workflow. This example shows building a blog for a Next.js website using 5 sequential skills.
+
+<Steps>
+  <Step title="Plan with @brainstorming">
+    Start by designing the system architecture and requirements.
+
+    ```text
+    Use @brainstorming to design a blog system for my Next.js site
+    ```
+
+    **Result:** The AI asks structured questions about your requirements and produces a detailed design specification.
+  </Step>
+
+  <Step title="Implement with @nextjs-best-practices">
+    Scaffold the blog structure following Next.js conventions.
+
+    ```text
+    Use @nextjs-best-practices to scaffold the blog with App Router
+    ```
+
+    **Result:** The AI creates the file structure, sets up routes, and adds components following modern Next.js patterns.
+  </Step>
+
+  <Step title="Style with @tailwind-patterns">
+    Apply modern, responsive styling to your blog.
+
+    ```text
+    Use @tailwind-patterns to make the blog posts look modern
+    ```
+
+    **Result:** The AI applies Tailwind CSS styling with responsive design and modern aesthetics.
+  </Step>
+
+  <Step title="Optimize with @seo-audit">
+    Make your blog discoverable by search engines.
+
+    ```text
+    Use @seo-audit to optimize the blog for search engines
+    ```
+
+    **Result:** The AI adds meta tags, sitemaps, structured data, and implements SEO best practices.
+  </Step>
+
+  <Step title="Test and deploy">
+    Add test coverage and deploy safely.
+
+    ```text
+    Use @test-driven-development to add tests, then @vercel-deployment to deploy
+    ```
+
+    **Result:** The AI creates test suites, sets up CI/CD pipelines, and deploys to Vercel with proper configuration.
+  </Step>
+</Steps>
+
+**Outcome:** A professional blog built with best practices, without manually researching each step or technology.
+
+## Common Questions
+
+<AccordionGroup>
+  <Accordion title="Which AI tool should I use?">
+    **Any of them!** Skills work universally across all major AI coding assistants. Pick the tool you already use or prefer:
+
+    - **Claude Code** — Best for terminal/CLI workflows
+    - **Cursor** — Best for IDE integration
+    - **Gemini CLI** — Best for Google ecosystem
+    - **Codex CLI** — Best for OpenAI ecosystem
+    - **Antigravity IDE** — Native support with global skills
+    - **Kiro CLI/IDE** — Auto-loading on-demand skills
+    - **OpenCode** — Open-source CLI alternative
+
+    All skills work the same way across all tools.
+  </Accordion>
+
+  <Accordion title="Do I need to install all 968+ skills?">
+    **No!** When you clone/install the repository, all skills are available locally, but your AI only loads the ones you explicitly invoke with `@skill-name`.
+
+    **Think of it like a library:** All books are on the shelf, but you only read the ones you need.
+
+    Start with 3-5 skills from your role's bundle in the [Bundles Guide](/bundles), then expand as needed.
+  </Accordion>
+
+  <Accordion title="What's the difference between bundles and workflows?">
+    - **Bundles** are curated skill lists organized by role (like "Web Wizard" or "Security Engineer"). They help you discover which skills are relevant.
+    - **Workflows** are step-by-step execution playbooks for concrete outcomes (like "Ship a SaaS MVP" or "Security Audit").
+
+    **Use bundles** when deciding which skills to use. **Use workflows** when you need guided execution for a specific goal.
+
+    Learn more: [Bundles Guide](/bundles) | [Workflows Guide](/workflows)
+  </Accordion>
+
+  <Accordion title="Can I see all available skills?">
+    Yes! Three ways to browse skills:
+
+    1. **Interactive Web App** — Search, filter, and copy skills with a modern UI (run `START_APP.bat` on Windows or `cd web-app && npm run app:dev` on macOS/Linux)
+    2. **Skill Catalog** — Complete searchable list in the [CATALOG.md](https://github.com/sickn33/antigravity-awesome-skills/blob/main/CATALOG.md)
+    3. **Command line** — Run `ls ~/.gemini/antigravity/skills/skills/` to see all skill directories
+    4. **Ask your AI** — "What skills do you have for [topic]?"
+  </Accordion>
+
+  <Accordion title="Do I need to restart my IDE after installing?">
+    Usually no, but if your AI doesn't recognize a skill:
+
+    1. Try restarting your IDE/CLI
+    2. Verify the installation path matches your tool's expected location
+    3. Reinstall with the tool-specific flag: `npx antigravity-awesome-skills --claude` (or `--cursor`, `--gemini`, etc.)
+  </Accordion>
+
+  <Accordion title="Can I create my own custom skills?">
+    **Yes!** Use the `@skill-creator` skill to build custom skills:
+
+    ```text
+    Use @skill-creator to help me build a custom skill for [your specific task]
+    ```
+
+    The AI will guide you through creating a properly formatted SKILL.md file following best practices.
+
+    See the [Contributing Guide](/contributing) for details on skill anatomy and quality standards.
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+Now that you've installed skills and tried your first one, here's what to do next:
+
+<CardGroup cols={2}>
+  <Card title="Browse Bundles" icon="layer-group" href="/bundles">
+    Find curated skill collections for your role: Web Dev, Security, Full-Stack, DevOps, AI/ML, and more.
+  </Card>
+
+  <Card title="Explore Workflows" icon="diagram-project" href="/workflows">
+    Follow step-by-step playbooks for complete projects: Ship a SaaS MVP, Security Audit, Build AI Agents, and more.
+  </Card>
+
+  <Card title="View All Skills" icon="book" href="https://github.com/sickn33/antigravity-awesome-skills/blob/main/CATALOG.md">
+    Search the complete catalog of 968+ skills organized by category with descriptions and risk labels.
+  </Card>
+
+  <Card title="Usage Guide" icon="graduation-cap" href="/usage">
+    Learn best practices, prompt patterns, and advanced techniques for getting the most out of skills.
+  </Card>
+</CardGroup>
+
+<Tip>
+**Pro Tip:** Start every new feature or project with `@brainstorming`. You'll save hours of refactoring by planning first!
+</Tip>

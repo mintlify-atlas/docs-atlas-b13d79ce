@@ -1,0 +1,342 @@
+---
+title: 'AWS Serverless'
+description: 'Build production-ready serverless applications on AWS'
+icon: 'aws'
+---
+
+# AWS Serverless
+
+Specialized skill for building production-ready serverless applications on AWS. Covers Lambda functions, API Gateway, DynamoDB, SQS/SNS event-driven patterns, SAM/CDK deployment, and cold start optimization.
+
+## Lambda Handler Pattern
+
+Proper Lambda function structure with error handling.
+
+**When to use**: Any Lambda function implementation, API handlers, event processors, scheduled tasks
+
+### Node.js Lambda Handler
+
+```javascript
+// handler.js
+const { DynamoDBClient } = require('@aws-sdk/client-dynamodb');
+const { DynamoDBDocumentClient, GetCommand } = require('@aws-sdk/lib-dynamodb');
+
+// Initialize outside handler (reused across invocations)
+const client = new DynamoDBClient({});
+const docClient = DynamoDBDocumentClient.from(client);
+
+exports.handler = async (event, context) => {
+  // Don't wait for event loop to clear
+  context.callbackWaitsForEmptyEventLoop = false;
+
+  try {
+    // Parse input based on event source
+    const body = typeof event.body === 'string'
+      ? JSON.parse(event.body)
+      : event.body;
+
+    // Business logic
+    const result = await processRequest(body);
+
+    // Return API Gateway compatible response
+    return {
+      statusCode: 200,
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify(result)
+    };
+  } catch (error) {
+    console.error('Error:', JSON.stringify({
+      error: error.message,
+      stack: error.stack,
+      requestId: context.awsRequestId
+    }));
+
+    return {
+      statusCode: error.statusCode || 500,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        error: error.message || 'Internal server error'
+      })
+    };
+  }
+};
+
+async function processRequest(data) {
+  const result = await docClient.send(new GetCommand({
+    TableName: process.env.TABLE_NAME,
+    Key: { id: data.id }
+  }));
+  return result.Item;
+}
+```
+
+### Python Lambda Handler
+
+```python
+import json
+import os
+import logging
+import boto3
+from botocore.exceptions import ClientError
+
+# Initialize outside handler (reused across invocations)
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+dynamodb = boto3.resource('dynamodb')
+table = dynamodb.Table(os.environ['TABLE_NAME'])
+
+def handler(event, context):
+    try:
+        # Parse input
+        body = json.loads(event['body']) if 'body' in event else event
+        
+        # Business logic
+        result = process_request(body)
+        
+        # Return API Gateway compatible response
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            'body': json.dumps(result)
+        }
+    except Exception as e:
+        logger.error(f'Error: {str(e)}', exc_info=True)
+        return {
+            'statusCode': 500,
+            'body': json.dumps({'error': str(e)})
+        }
+
+def process_request(data):
+    response = table.get_item(Key={'id': data['id']})
+    return response.get('Item')
+```
+
+## API Gateway Integration Pattern
+
+REST API and HTTP API integration with Lambda.
+
+**When to use**: Building REST APIs backed by Lambda, need HTTP endpoints for functions
+
+### SAM Template
+
+```yaml
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Globals:
+  Function:
+    Runtime: nodejs20.x
+    Timeout: 30
+    MemorySize: 256
+    Environment:
+      Variables:
+        TABLE_NAME: !Ref ItemsTable
+
+Resources:
+  # HTTP API (recommended for simple use cases)
+  HttpApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: prod
+      CorsConfiguration:
+        AllowOrigins:
+          - "*"
+        AllowMethods:
+          - GET
+          - POST
+          - DELETE
+        AllowHeaders:
+          - "*"
+
+  # Lambda Functions
+  GetItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/get.handler
+      Events:
+        GetItem:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /items/{id}
+            Method: GET
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref ItemsTable
+
+  CreateItemFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/create.handler
+      Events:
+        CreateItem:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref HttpApi
+            Path: /items
+            Method: POST
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ItemsTable
+
+  # DynamoDB Table
+  ItemsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
+      BillingMode: PAY_PER_REQUEST
+
+Outputs:
+  ApiUrl:
+    Value: !Sub "https://${HttpApi}.execute-api.${AWS::Region}.amazonaws.com/prod"
+```
+
+## Event-Driven SQS Pattern
+
+Lambda triggered by SQS for reliable async processing.
+
+**When to use**: Decoupled asynchronous processing, need retry logic and DLQ, processing messages in batches
+
+### SAM Template
+
+```yaml
+Resources:
+  ProcessorFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/handlers/processor.handler
+      Events:
+        SQSEvent:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt ProcessingQueue.Arn
+            BatchSize: 10
+            FunctionResponseTypes:
+              - ReportBatchItemFailures  # Partial batch failure handling
+
+  ProcessingQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 180  # 6x Lambda timeout
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt DeadLetterQueue.Arn
+        maxReceiveCount: 3
+
+  DeadLetterQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      MessageRetentionPeriod: 1209600  # 14 days
+```
+
+### Handler with Partial Batch Failure
+
+```javascript
+// src/handlers/processor.js
+exports.handler = async (event) => {
+  const batchItemFailures = [];
+
+  for (const record of event.Records) {
+    try {
+      const body = JSON.parse(record.body);
+      await processMessage(body);
+    } catch (error) {
+      console.error(`Failed to process message ${record.messageId}:`, error);
+      // Report this item as failed (will be retried)
+      batchItemFailures.push({
+        itemIdentifier: record.messageId
+      });
+    }
+  }
+
+  // Return failed items for retry
+  return { batchItemFailures };
+};
+
+async function processMessage(message) {
+  console.log('Processing:', message);
+  await saveToDatabase(message);
+}
+```
+
+## Anti-Patterns
+
+<Warning>
+### ❌ Monolithic Lambda
+
+Large deployment packages cause slow cold starts. Hard to scale individual operations. Updates affect entire system.
+</Warning>
+
+<Warning>
+### ❌ Large Dependencies
+
+Increases deployment package size. Slows down cold starts significantly. Most of SDK/library may be unused.
+</Warning>
+
+<Warning>
+### ❌ Synchronous Calls in VPC
+
+VPC-attached Lambdas have ENI setup overhead. Blocking DNS lookups or connections worsen cold starts.
+</Warning>
+
+## Sharp Edges
+
+| Issue | Severity | Solution |
+|-------|----------|----------|
+| Cold start latency | High | Measure INIT phase, optimize package size |
+| Function timeout | High | Set appropriate timeout based on workload |
+| Memory allocation | High | Increase memory for faster CPU |
+| VPC networking | Medium | Verify VPC configuration, use VPC endpoints |
+| Event loop blocking | Medium | Set `callbackWaitsForEmptyEventLoop = false` |
+| Large file uploads | Medium | Use S3 presigned URLs, not API Gateway |
+| Concurrent executions | High | Use different buckets/prefixes to avoid throttling |
+
+## Best Practices
+
+<CardGroup cols={2}>
+  <Card title="Initialize Outside Handler" icon="rocket">
+    Reuse connections and SDK clients across invocations
+  </Card>
+  
+  <Card title="Use Environment Variables" icon="gear">
+    Store configuration in environment variables, not code
+  </Card>
+  
+  <Card title="Implement Proper Error Handling" icon="shield">
+    Log errors with context, return appropriate status codes
+  </Card>
+  
+  <Card title="Set Appropriate Timeouts" icon="clock">
+    Match timeout to actual workload duration
+  </Card>
+  
+  <Card title="Use Partial Batch Failures" icon="list">
+    For SQS, report individual failures instead of entire batch
+  </Card>
+  
+  <Card title="Monitor with CloudWatch" icon="chart-line">
+    Track invocations, errors, duration, and throttles
+  </Card>
+</CardGroup>
+
+## Related Skills
+
+- `cdk-patterns` - AWS CDK patterns and constructs
+- `cloudformation-best-practices` - CloudFormation optimization
+- `terraform-aws-modules` - Terraform modules for AWS
+- `api-design-principles` - REST API design patterns
+
+<Tip>
+  Use SAM for rapid development and testing, then consider CDK for complex infrastructure requirements.
+</Tip>
