@@ -1,0 +1,114 @@
+{
+  "projectType": "sdk-library",
+  "projectName": "Antigravity Awesome Skills",
+  "projectDescription": "The ultimate collection of 968+ battle-tested agentic skills for Claude Code, Gemini CLI, Cursor, and other AI coding assistants.",
+  "theme": "sequoia",
+  "primaryColor": "#8B5CF6",
+  "lightColor": "#A78BFA",
+  "darkColor": "#7C3AED",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "installation"
+            ]
+          },
+          {
+            "group": "Usage",
+            "pages": [
+              "usage/how-to-use-skills",
+              "usage/compatibility",
+              "usage/troubleshooting"
+            ]
+          },
+          {
+            "group": "Guides",
+            "pages": [
+              "guides/bundles",
+              "guides/workflows",
+              "guides/web-app",
+              "guides/creating-skills"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Skill Reference",
+        "groups": [
+          {
+            "group": "Browse by Category",
+            "pages": [
+              "skills/overview",
+              "skills/architecture",
+              "skills/business",
+              "skills/data-ai",
+              "skills/development",
+              "skills/infrastructure",
+              "skills/security",
+              "skills/testing",
+              "skills/workflow"
+            ]
+          },
+          {
+            "group": "Popular Skills",
+            "pages": [
+              "skills/popular/brainstorming",
+              "skills/popular/react-patterns",
+              "skills/popular/security-auditor",
+              "skills/popular/aws-serverless"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Community",
+        "groups": [
+          {
+            "group": "Contributing",
+            "pages": [
+              "community/contributing",
+              "community/skill-anatomy",
+              "community/quality-bar"
+            ]
+          },
+          {
+            "group": "Resources",
+            "pages": [
+              "community/sources",
+              "community/security-guidelines",
+              "community/changelog"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "968+ production-ready agentic skills across 9 categories",
+    "Universal SKILL.md format compatible with Claude Code, Gemini CLI, Cursor, Antigravity, and more",
+    "Curated bundles organized by role (Web Wizard, Security Engineer, Full-Stack Developer, etc.)",
+    "Step-by-step workflows for common development goals (Ship SaaS MVP, Security Audit, Build AI Agent)",
+    "Interactive web app for browsing, searching, and copying skills with prompt builder",
+    "Official skills from Anthropic, Vercel, Supabase, Microsoft, Google, and Apify",
+    "NPX installer with automatic updates and multi-platform support",
+    "Comprehensive documentation including usage guides, troubleshooting, and contribution guidelines"
+  ],
+  "publicApiSurface": [
+    "npx antigravity-awesome-skills (CLI installer)",
+    "~/.gemini/antigravity/skills/ (default installation path)",
+    ".claude/skills/, .cursor/skills/, .gemini/skills/, .codex/skills/, .kiro/skills/, .agents/skills/ (platform-specific paths)",
+    "@skill-name invocation pattern (universal skill reference)",
+    "Web App (interactive skill browser at localhost:5173)",
+    "SKILL.md format (frontmatter: name, description, risk, source, date_added)",
+    "skills_index.json (machine-readable skill registry)",
+    "workflows.json (workflow metadata)",
+    "Bundles: Essentials, Web Wizard, Security Engineer, Full-Stack Developer, DevOps, AI/ML Engineer, etc.",
+    "Categories: architecture, business, data-ai, development, infrastructure, security, testing, workflow, general"
+  ]
+}
